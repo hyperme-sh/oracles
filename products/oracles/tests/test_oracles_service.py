@@ -135,6 +135,78 @@ async def test_attest_public_relay_happy_path(http_client, tenant_headers):
 
 
 @pytest.mark.asyncio
+async def test_attest_default_mock_upstream_without_injection(event_sink, monkeypatch, tenant_headers):
+    from api.core import config as api_config
+    from oracles_service.app import create_app
+
+    monkeypatch.setattr(
+        api_config.settings,
+        "database_url",
+        "postgresql+asyncpg://x:x@localhost:1/x",
+    )
+    monkeypatch.setattr(api_config.settings, "kafka_bootstrap_servers", None)
+    monkeypatch.setattr(api_config.settings, "service_name", "oracles-service-test")
+    app = create_app(test_event_sink=event_sink, enable_db_middleware=False)
+
+    import httpx
+    from asgi_lifespan import LifespanManager
+
+    async with LifespanManager(app):
+        transport = httpx.ASGITransport(app=app)
+        async with httpx.AsyncClient(transport=transport, base_url="http://test") as client:
+            r = await client.post(
+                "/api/v1/oracles/v0/attest",
+                headers=tenant_headers,
+                json={"kind": "public_attestation", "subject": _ATTEST_SUBJECT},
+            )
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body["ok"] is False
+    assert body["status"] == "not_found"
+    assert body["upstream"] == "mock"
+    assert event_sink == []
+
+
+@pytest.mark.asyncio
+async def test_attest_bearer_api_key(http_client, tenant_a):
+    r = await http_client.post(
+        "/api/v1/oracles/v0/attest",
+        headers={
+            "X-Tenant-ID": str(tenant_a),
+            "Authorization": "Bearer pk_test.oracles-service",
+        },
+        json={"kind": "public_attestation", "subject": _ATTEST_SUBJECT},
+    )
+    assert r.status_code == 200, r.text
+    assert r.json()["ok"] is True
+
+
+@pytest.mark.asyncio
+async def test_http_upstream_status_mapping():
+    async def not_found(_url: str) -> FetchResult:
+        return FetchResult(status_code=404, body=b"gone")
+
+    async def server_error(_url: str) -> FetchResult:
+        return FetchResult(status_code=502, body=b"bad gateway")
+
+    async def other(_url: str) -> FetchResult:
+        return FetchResult(status_code=403, body=b"no")
+
+    unseen = await HttpAttestUpstream(fetch=not_found).observe(
+        kind="public_relay", subject=_RELAY_SUBJECT
+    )
+    assert unseen.status == "not_found"
+    err = await HttpAttestUpstream(fetch=server_error).observe(
+        kind="public_relay", subject=_RELAY_SUBJECT
+    )
+    assert err.status == "error"
+    blocked = await HttpAttestUpstream(fetch=other).observe(
+        kind="public_relay", subject=_RELAY_SUBJECT
+    )
+    assert blocked.status == "unreachable"
+
+
+@pytest.mark.asyncio
 async def test_attest_unknown_subject_not_found(http_client, tenant_headers):
     r = await http_client.post(
         "/api/v1/oracles/v0/attest",
