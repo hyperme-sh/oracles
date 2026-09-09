@@ -2,7 +2,7 @@
 
 Integrator contract for s3r.ch (and later peers). In-repo only. Do not copy this onto s3r.ch pages.
 
-Locks: FyberLabs/hypermesh-docs `open-services.md` (2026-09-02). This service is the **oracles/validators product shape** after TURN allocate. Crypto payments are the next slice, not this one. Wallet door parked. ACA env wire stays held.
+Locks: FyberLabs/hypermesh-docs `open-services.md` (2026-09-02). This service is the **oracles/validators product shape** after TURN allocate. Paid access (`products/payments`) is the next slice, not this one. Wallet door parked. ACA env wire stays held.
 
 Folder id **`oracles`** (OpenAPI id `oracles`, package `oracles_service`). Not `validators`: the product is the open hop others can offer; a validator is one upstream, not the noun.
 
@@ -147,4 +147,4 @@ const { ok, status, digest, observedAt } = await attest({
 
 A later `POST /api/v1/oracles/v0/verify` may take client-supplied evidence and return valid/invalid against the same oracle view. Cutover is this base URL, not a second client protocol. Metering / paid access can come later; the API stays public/open so others can sell the same shape.
 
-Sequence: TURN allocate → oracles (this) → crypto payments. Wallet door parked.
+Sequence: TURN allocate → oracles (this) → payments (`products/payments`). Wallet door parked.
