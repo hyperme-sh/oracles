@@ -74,6 +74,38 @@ Production gateway already validates `X-Api-Key` via `api-keys-service` and can 
 
 v0 publishes **no** domain events. No prompt bodies, API keys, or observed payloads on the bus or Gun.
 
+### Fail-soft (same spirit as TURN → STUN + `/gun`)
+
+When the subject cannot be observed, attest still returns **HTTP 200** with `ok: false` and `status` in `{not_found, unreachable, error}`. That is **fail-soft for the consumer** — not a hard 5xx that forces the client to abort.
+
+```json
+{
+  "ok": false,
+  "kind": "public_attestation",
+  "subject": "eas:uid:0xmissing",
+  "status": "not_found",
+  "observedAt": "2026-09-09T03:36:00+00:00",
+  "digest": null,
+  "upstream": "mock"
+}
+```
+
+Consumer (s3r.ch Next later) should treat that like TURN fail-soft (unsigned / failed allocate → keep STUN + `/gun`):
+
+- Keep browser-first SIWE ecrecover, ERC-1271, ENS reverse+forward.
+- Do not invent a grant from a missing digest. Do not persist `null` as proof.
+- Optional UI honesty that the oracle hop did not observe. Do not copy this contract onto s3r.ch pages.
+
+Auth and config failures still **hard-fail**. Those are not soft:
+
+| HTTP | When |
+| --- | --- |
+| 400 | Missing/invalid `X-Tenant-ID`, or `subject` fails public-https / identifier rules |
+| 401 | Missing product API key, Hypermesh `hm_*` identity, or JWT `purpose` other than `service` |
+| 503 | `ORACLES_UPSTREAM` missing/unknown (or other fail-closed config) |
+
+Do not change live s3r.ch in this PR.
+
 ### How s3r.ch Next would hop later
 
 ```ts
@@ -83,10 +115,10 @@ const { ok, status, digest, observedAt } = await attest({
   subject: uid,
   clientHint: "s3rch-next",
 })
+// HTTP 200 + ok === false (not_found | unreachable | error): fail-soft.
+// Keep browser-first SIWE / ENS / ERC-1271. Do not invent a grant from a missing digest.
 // Do not persist digest as a grant. Do not put the API key on Gun.
 ```
-
-Unsigned / failed attest: the client keeps its browser-side SIWE / ENS / ERC-1271 checks. Do not change live s3r.ch in this PR.
 
 ## Config
 

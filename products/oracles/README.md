@@ -12,7 +12,7 @@ Compose host port **8013**. In-memory / no persist. Default upstream is **mock**
 
 | Piece | Path |
 |-------|------|
-| Attest | `POST /api/v1/oracles/v0/attest` |
+| Attest | `POST /api/v1/oracles/v0/attest` (HTTP 200 + `ok: false` is fail-soft; 401/503 stay hard) |
 | Health | `GET /api/v1/health/` |
 
 Auth: marketplace `X-Tenant-ID` + product API key (`X-Api-Key` or Bearer) or a purpose=`service` API-key exchange JWT. Same family as TURN allocate. Not Hypermesh lease, not `hm_rtr_` / renter / ir.
