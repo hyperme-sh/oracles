@@ -4,7 +4,7 @@ Second Panopticon **open product** on the client-mesh services plane (after TURN
 
 Product folder id **`oracles`** (OpenAPI id `oracles`, package `oracles_service`). Chosen over `validators`: open-services frames the service category as “oracles we cannot do in-browser”; a validator is one kind of upstream, not the product noun.
 
-Locks (do not amend): FyberLabs/hypermesh-docs `open-services.md` (2026-09-02). Integrator shape: [`docs/oracles-attest-v0.md`](docs/oracles-attest-v0.md).
+Locks (do not amend): FyberLabs/hypermesh-docs `open-services.md` (2026-09-02). Integrator shape: [`docs/oracles-attest-v0.md`](docs/oracles-attest-v0.md). Plane spine §C (s3r.ch catalog): [`docs/multi-plane-spine-v0.md`](../../docs/multi-plane-spine-v0.md).
 
 ## What this service is
 

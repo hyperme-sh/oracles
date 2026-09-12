@@ -2,7 +2,7 @@
 
 Integrator contract for s3r.ch (and later peers). In-repo only. Do not copy this onto s3r.ch pages.
 
-Locks: FyberLabs/hypermesh-docs `open-services.md` (2026-09-02). This service is the **oracles/validators product shape** after TURN allocate. Paid access (`products/payments`) is the next slice, not this one. Wallet door parked. ACA env wire stays held.
+Locks: FyberLabs/hypermesh-docs `open-services.md` (2026-09-02). This service is the **oracles/validators product shape** after TURN allocate. Paid access (`products/payments`) is the next slice, not this one. Wallet door parked. ACA env wire stays held. Plane spine: [`docs/multi-plane-spine-v0.md`](../../../docs/multi-plane-spine-v0.md) §C — oracles/validators attest.
 
 Folder id **`oracles`** (OpenAPI id `oracles`, package `oracles_service`). Not `validators`: the product is the open hop others can offer; a validator is one upstream, not the noun.
 
