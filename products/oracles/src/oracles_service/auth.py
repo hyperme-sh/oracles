@@ -24,7 +24,7 @@ ATTEST_PURPOSE_SERVICE = "service"
 TENANT_CLAIM = "https://panopticon.dev/tenant_id"
 
 DEVICE_SECRET_HEAD = "hm_dev_"
-ROUTER_SECRET_HEAD = "hm_rtr_"
+GATEWAY_SECRET_HEAD = "hm_gw_"
 SITE_TOKEN_HEAD = "hm_site_"
 TICKET_PREFIX = "hm1."
 
@@ -42,14 +42,14 @@ class ServiceGrant:
 
 
 def looks_like_jwt(token: str) -> bool:
-    if token.startswith((ROUTER_SECRET_HEAD, DEVICE_SECRET_HEAD, SITE_TOKEN_HEAD, TICKET_PREFIX)):
+    if token.startswith((GATEWAY_SECRET_HEAD, DEVICE_SECRET_HEAD, SITE_TOKEN_HEAD, TICKET_PREFIX)):
         return False
     parts = token.split(".")
     return len(parts) == 3 and all(parts)
 
 
 def looks_like_api_key(token: str) -> bool:
-    if token.startswith((ROUTER_SECRET_HEAD, DEVICE_SECRET_HEAD, SITE_TOKEN_HEAD, TICKET_PREFIX)):
+    if token.startswith((GATEWAY_SECRET_HEAD, DEVICE_SECRET_HEAD, SITE_TOKEN_HEAD, TICKET_PREFIX)):
         return False
     if looks_like_jwt(token):
         return False
@@ -77,7 +77,7 @@ def _api_key_header(request: Request) -> str | None:
 
 
 def _forbidden_identity(token: str) -> bool:
-    return token.startswith((ROUTER_SECRET_HEAD, DEVICE_SECRET_HEAD, SITE_TOKEN_HEAD, TICKET_PREFIX))
+    return token.startswith((GATEWAY_SECRET_HEAD, DEVICE_SECRET_HEAD, SITE_TOKEN_HEAD, TICKET_PREFIX))
 
 
 def _subject_from_api_key(token: str) -> str:

@@ -298,7 +298,7 @@ async def test_attest_rejects_ir_and_renter_purpose(http_client, tenant_a):
 
 @pytest.mark.asyncio
 async def test_attest_rejects_hypermesh_identities(http_client, tenant_a):
-    for token in ("hm_rtr_not-a-key", "hm_dev_not-a-key", "hm_site_not-a-key", "hm1.not-a-ticket"):
+    for token in ("hm_gw_not-a-key", "hm_dev_not-a-key", "hm_site_not-a-key", "hm1.not-a-ticket"):
         r = await http_client.post(
             "/api/v1/oracles/v0/attest",
             headers={

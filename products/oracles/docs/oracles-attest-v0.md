@@ -26,7 +26,7 @@ Reuse Panopticon product patterns (marketplace tenant + API key / purpose grant)
 | `X-Api-Key` | one of | `prefix.secret` product API key. Hold this **server-side** in the Next app (or a thin product client). Never Gun. Never `localStorage`. Never `NEXT_PUBLIC_*`. |
 | `Authorization: Bearer` | one of | Same API key, **or** a gateway-minted API-key exchange JWT with `purpose=service` |
 
-Rejects: missing key (401), Hypermesh `hm_rtr_` / `hm_dev_` / `hm_site_` / `hm1.` identities, exchange JWT with `purpose=renter` or `purpose=ir`.
+Rejects: missing key (401), Hypermesh `hm_gw_` / `hm_dev_` / `hm_site_` / `hm1.` identities, exchange JWT with `purpose=renter` or `purpose=ir`.
 
 **s3r.ch SIWE hop (later, not this slice):** s3r.ch login stays SIWE on the s3r.ch origin. That app verifies the session itself, then the **Next server** calls attest with the product API key. Do not invent SIWE-as-Panopticon-login. Do not use Keycloak as s3r.ch login. Wallet door (SIWE↔Keycloak) stays parked.
 
