@@ -30,7 +30,7 @@ docker compose up -d --build postgres kafka oracles-service
 - Health: http://localhost:8013/api/v1/health/
 - OpenAPI / Swagger: http://localhost:8013/docs
 - Gateway merge: `GATEWAY_ORACLES_SERVICE_URL` (compose sets it). Merged paths are prefixed `/_upstream/oracles/…`.
-- Edge / Caddy prefix: `/api/v1/oracles*` → :8013.
+- Gateway prefix: `/api/v1/oracles*` → :8013.
 
 Without Docker:
 
