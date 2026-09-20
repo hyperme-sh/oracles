@@ -29,6 +29,11 @@ def _clear_keycloak_validator_cache() -> None:
 def _oracles_env(monkeypatch):
     monkeypatch.setenv("ORACLES_UPSTREAM", "mock")
     monkeypatch.setenv("ORACLES_HTTP_TIMEOUT_S", "3")
+    monkeypatch.setattr(
+        api_config.settings,
+        "api_key_exchange_jwt_secret",
+        "test-api-key-exchange-secret-min-32-chars!!",
+    )
 
 
 @pytest.fixture
