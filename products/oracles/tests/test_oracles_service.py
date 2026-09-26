@@ -144,7 +144,6 @@ async def test_attest_default_mock_upstream_without_injection(event_sink, monkey
         "database_url",
         "postgresql+asyncpg://x:x@localhost:1/x",
     )
-    monkeypatch.setattr(api_config.settings, "kafka_bootstrap_servers", None)
     monkeypatch.setattr(api_config.settings, "service_name", "oracles-service-test")
     app = create_app(test_event_sink=event_sink, enable_db_middleware=False)
 

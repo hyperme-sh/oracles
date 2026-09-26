@@ -58,7 +58,6 @@ def app(event_sink, attest_upstream, monkeypatch):
         "database_url",
         "postgresql+asyncpg://x:x@localhost:1/x",
     )
-    monkeypatch.setattr(api_config.settings, "kafka_bootstrap_servers", None)
     monkeypatch.setattr(api_config.settings, "service_name", "oracles-service-test")
 
     from oracles_service.app import create_app
