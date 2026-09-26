@@ -13,7 +13,9 @@ LABEL com.fyberlabs.alembic-head="${ALEMBIC_HEAD}"
 COPY core/events ./core/events
 COPY core/lib/controlplane-core ./core/lib/controlplane-core
 COPY products/oracles ./products/oracles
-RUN uv sync --frozen --no-dev --package oracles-service
+ARG CONTROLPLANE_SERVICEBUS=0
+RUN uv sync --frozen --no-dev --package oracles-service \
+ && if [ "$CONTROLPLANE_SERVICEBUS" = "1" ]; then uv pip install --python /app/.venv 'azure-servicebus>=7.12.0'; fi
 ENV PYTHONPATH=/app/core/lib/controlplane-core/src:/app/core/lib/controlplane-db/src:/app/core/events/src:/app/products/oracles/src
 WORKDIR /app/products/oracles
 CMD ["uv", "run", "--project", "/app/products/oracles", "python", "-m", "oracles_service.main"]

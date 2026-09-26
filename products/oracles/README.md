@@ -24,7 +24,7 @@ Browser-first stays in the client: SIWE ecrecover, ERC-1271, ENS reverse+forward
 From the repo root (after `uv lock` if you just added this package):
 
 ```bash
-docker compose up -d --build postgres kafka oracles-service
+docker compose up -d --build postgres oracles-service
 ```
 
 - Health: http://localhost:8013/api/v1/health/
