@@ -149,6 +149,9 @@ def create_app(
     app.include_router(oracles_router, prefix="/api/v1")
     add_optional_service_cors(app, env_var="ORACLES_SERVICE_CORS_ORIGINS")
     logger.info("Oracles service: health + /api/v1/oracles/v0/attest + optional CORS")
+    from api.infrastructure.metrics import install_http_metrics
+
+    install_http_metrics(app)
     return app
 
 
