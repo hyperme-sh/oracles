@@ -102,7 +102,7 @@ def _exchange_jwt_claims(token: str) -> dict[str, Any] | None:
     """Local decode of the gateway-minted API-key session JWT. Not Keycloak."""
 
     try:
-        from api.infrastructure.security.api_key_exchange_jwt import (
+        from controlplane_identity.security.api_key_exchange_jwt import (
             try_decode_api_key_session_jwt,
         )
     except Exception:
