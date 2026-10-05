@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "product": "oracles",
+  "edge_routes": [
+    {
+      "prefix": "/api/v1/oracles",
+      "service_id": "oracles",
+      "url_attr": "oracles_service_url"
+    }
+  ]
+}
