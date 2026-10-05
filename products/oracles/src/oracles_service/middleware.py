@@ -7,12 +7,12 @@ import uuid
 from fastapi import Request
 from starlette.middleware.base import BaseHTTPMiddleware
 
-from api.infrastructure.persistence.db_session import (
+from controlplane_tenancy.db_session import (
     get_session_maker,
     reset_db_session,
     set_db_session,
 )
-from api.infrastructure.persistence.tenant_guc import set_current_tenant_id_guc
+from controlplane_tenancy.tenant_guc import set_current_tenant_id_guc
 
 
 class OraclesServiceDbMiddleware(BaseHTTPMiddleware):
