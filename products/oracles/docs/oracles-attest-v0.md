@@ -2,7 +2,7 @@
 
 Integrator contract for s3r.ch (and later peers). In-repo only. Do not copy this onto s3r.ch pages.
 
-Locks: FyberLabs/hypermesh-docs `open-services.md` (2026-09-02). This service is the **oracles/validators product shape** after TURN allocate. Paid access (`products/payments`) is the next slice, not this one. Wallet door parked. ACA env wire stays held. Plane spine: [`docs/multi-plane-spine-v0.md`](../../../docs/multi-plane-spine-v0.md) §C — oracles/validators attest.
+Design references: FyberLabs/hypermesh-docs `open-services.md` (2026-09-02). This service is the **oracles/validators product shape** after TURN allocate. Paid access (`products/payments`) is the next slice, not this one. Wallet door parked. ACA env wire stays paused. Plane spine: [`docs/multi-plane-spine-v0.md`](../../../docs/multi-plane-spine-v0.md) §C — oracles/validators attest.
 
 Folder id **`oracles`** (OpenAPI id `oracles`, package `oracles_service`). Not `validators`: the product is the open hop others can offer; a validator is one upstream, not the noun.
 
@@ -28,7 +28,7 @@ Reuse Panopticon product patterns (marketplace tenant + API key / purpose grant)
 
 Rejects: missing key (401), Hypermesh `hm_gw_` / `hm_dev_` / `hm_site_` / `hm1.` identities, exchange JWT with `purpose=renter` or `purpose=ir`.
 
-**s3r.ch SIWE hop (later, not this slice):** s3r.ch login stays SIWE on the s3r.ch origin. That app verifies the session itself, then the **Next server** calls attest with the product API key. Do not invent SIWE-as-Panopticon-login. Do not use Keycloak as s3r.ch login. Wallet door (SIWE↔Keycloak) stays parked.
+**s3r.ch SIWE hop (later, not this slice):** s3r.ch login stays SIWE on the s3r.ch origin. That app verifies the session itself, then the **Next server** calls attest with the product API key. SIWE is not a Panopticon login. Do not use Keycloak as s3r.ch login. Wallet door (SIWE↔Keycloak) stays parked.
 
 Browser-first stays in the client: SIWE ecrecover, ERC-1271, ENS reverse+forward. Panopticon only observes public subjects we cannot honestly do client-side.
 
@@ -46,7 +46,7 @@ Production gateway already validates `X-Api-Key` via `api-keys-service` and can 
 
 | Field | Type | Notes |
 | --- | --- | --- |
-| `kind` | `"public_attestation"` \| `"public_relay"` | One verb, two public subjects. Product may lock a second verb later (`/verify`). |
+| `kind` | `"public_attestation"` \| `"public_relay"` | One verb, two public subjects. A second verb may be added later (`/verify`). |
 | `subject` | string, 1–256 | Attestation identifier (`[A-Za-z0-9:._/-]`) or a **public https** URL. No credentials in the URL. `public_relay` must be https on a public hostname (rejects Tailscale / RFC1918 / loopback). |
 | `clientHint` | string, optional | Integrator label. Sanitized by schema length only in v0. Not persisted. Not written to Gun. |
 
@@ -93,7 +93,7 @@ When the subject cannot be observed, attest still returns **HTTP 200** with `ok:
 Consumer (s3r.ch Next later) should treat that like TURN fail-soft (unsigned / failed allocate → keep STUN + `/gun`):
 
 - Keep browser-first SIWE ecrecover, ERC-1271, ENS reverse+forward.
-- Do not invent a grant from a missing digest. Do not persist `null` as proof.
+- Never derive a grant from a missing digest. Do not persist `null` as proof.
 - Optional UI honesty that the oracle hop did not observe. Do not copy this contract onto s3r.ch pages.
 
 Auth and config failures still **hard-fail**. Those are not soft:
@@ -116,7 +116,7 @@ const { ok, status, digest, observedAt } = await attest({
   clientHint: "s3rch-next",
 })
 // HTTP 200 + ok === false (not_found | unreachable | error): fail-soft.
-// Keep browser-first SIWE / ENS / ERC-1271. Do not invent a grant from a missing digest.
+// Keep browser-first SIWE / ENS / ERC-1271. Never derive a grant from a missing digest.
 // Do not persist digest as a grant. Do not put the API key on Gun.
 ```
 
