@@ -1,19 +1,27 @@
-# oracles
+# Oracles
 
-Private component extraction from `FyberLabs/panopticon`.
+Public attestation and relay observations. Package oracles-service 0.1.0;
+factory oracles_service.app.create_app; entry point python -m oracles_service.main.
 
-Source commit: `2d92d13f38d491c298631b9b9296979c1fbadd19`.
+POST /api/v1/oracles/v0/attest uses the marketplace tenant and a product API key
+or purpose=service exchange token. GET /api/v1/health/ is unauthenticated.
+edge-routes.json retains the edge routing contract. Default upstream is mock;
+the service has no persistent state and publishes no domain events in this version.
 
-Retained paths:
+## Development
 
-- `products/oracles`
+Use Python 3.13 and uv 0.11.26 with read access to the seven pinned private
+repositories named in .github/workflows/package.yml.
 
-The import retains selected-path Git history and verifies every retained blob and
-file mode against that exact source. Rename predecessor paths are not followed.
-Source paths stay in their original layout for review. See `EXTRACTION.json`.
+    uv sync --frozen
+    bash scripts/check-package.sh
 
-This is a history import, not a standalone release or runtime cutover. Dependency
-closure, workspace/lock configuration, compatibility packages, contract snapshots,
-CI/runner eligibility and destination-specific credentials must be reviewed before
-adoption. Actions remain disabled. No credential, deployment ref or runtime is
-copied or switched; the original monorepo remains intact.
+The existing suite runs from source, a normal fresh installed wheel outside the
+checkout and an sdist-rebuilt wheel. Both wheel payloads must match runtime bytes.
+HTTP tests use mock upstreams and disable database middleware; they require no
+live chain or relay access. Service/container wiring and consumer acceptance
+require separate validation before deployment.
+
+The main-only hosted workflow uses pinned actions, read-only contents and exact
+repository credential headers. Actions remains disabled pending approved scoped
+DEPENDENCY_READ_TOKEN access and hosted-worker policy. No publishing or deployment.
