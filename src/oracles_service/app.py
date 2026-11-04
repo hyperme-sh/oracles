@@ -78,7 +78,7 @@ def create_app(
 
     app = FastAPI(
         lifespan=lifespan,
-        title="Panopticon oracles",
+        title="(s)panopticon oracles",
         description=(
             "Open product: POST /api/v1/oracles/v0/attest observes a public "
             "attestation or relay subject via a mockable upstream. Looks like "
@@ -136,7 +136,7 @@ def create_app(
             "description": (
                 "Same product API key as Bearer, or a gateway-minted "
                 "API-key exchange JWT with purpose=service. "
-                "Not Keycloak-as-s3r.ch-login. Not SIWE-as-Panopticon-login."
+                "Not Keycloak-as-s3r.ch-login. Not SIWE-as-(s)panopticon-login."
             ),
         }
         app.openapi_schema = schema

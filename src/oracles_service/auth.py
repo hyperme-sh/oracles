@@ -4,7 +4,7 @@ Reuses the TURN / Hypermesh IR pattern: marketplace tenant +
 machine/service API key (X-Api-Key or Bearer) or an API-key
 exchange JWT with purpose=service. Format-only on the raw key.
 
-Does not invent SIWE-as-Panopticon-login. Does not accept Keycloak
+Does not invent SIWE-as-(s)panopticon-login. Does not accept Keycloak
 as s3r.ch login. Hypermesh renter/ir purposes and hm_* identities
 stay out.
 """
@@ -21,7 +21,7 @@ from oracles_service.tenant import require_tenant_id
 ATTEST_AUTH_REQUIRED = "product API key required"
 ATTEST_PURPOSE_REQUIRED = "purpose service API key required"
 ATTEST_PURPOSE_SERVICE = "service"
-TENANT_CLAIM = "https://panopticon.dev/tenant_id"
+TENANT_CLAIM = "https://spanopticon.dev/tenant_id"
 
 DEVICE_SECRET_HEAD = "hm_dev_"
 GATEWAY_SECRET_HEAD = "hm_gw_"
