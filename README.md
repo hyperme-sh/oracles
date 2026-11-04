@@ -22,9 +22,9 @@ HTTP tests use mock upstreams and disable database middleware; they require no
 live chain or relay access. Service/container wiring and consumer acceptance
 require separate validation before deployment.
 
-The main-only hosted workflow uses pinned actions, read-only contents and exact
+The main-only shared-runner workflow uses pinned actions, read-only contents and exact
 repository credential headers. Actions remains disabled pending approved scoped
-DEPENDENCY_READ_TOKEN access and hosted-worker policy. No publishing or deployment.
+DEPENDENCY_READ_TOKEN access and shared-runner qualification. No publishing or deployment.
 
 HTTP relay fetching rejects non-public DNS answers and pins the connection to a
 validated address while preserving TLS hostname verification. It bypasses environment
