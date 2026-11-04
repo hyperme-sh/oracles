@@ -4,7 +4,7 @@ Reuses the TURN / Hypermesh IR pattern: marketplace tenant +
 machine/service API key (X-Api-Key or Bearer) or an API-key
 exchange JWT with purpose=service. Format-only on the raw key.
 
-Does not invent SIWE-as-(s)panopticon-login. Does not accept Keycloak
+Does not invent SIWE-as-spanopticon-login. Does not accept Keycloak
 as s3r.ch login. Hypermesh renter/ir purposes and hm_* identities
 stay out.
 """
