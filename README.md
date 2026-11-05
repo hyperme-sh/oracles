@@ -47,6 +47,29 @@ new main revision. The publisher verifies the run, source, workflow and artifact
 digest independently of release metadata. Repository immutable releases must be
 enabled. See the [shared release contract](https://github.com/hyperme-sh/.github/blob/7749591fccd30d46ba9b0adabe82114001c9d0de/actions/release-channel/README.md).
 
+### Package preparation
+
+`bash scripts/check-package.sh --fixtures` runs the existing source, fresh-wheel
+and rebuilt-source-archive consumers without private Git credentials. Fixtures
+are built from the exact clean Git revisions already pinned by this package;
+the manifest records their digests and source provenance. The verifier checks
+root metadata, the complete active lock graph and transitive wheel metadata.
+Explicit private extras and unrecognized conditional pins fail closed.
+
+The read-only pull-request workflow retains tested wheels, source archives and
+artifact-derived runtime and installer contracts as Actions artifacts. It does
+not publish releases. Owner and private dependency versions remain unchanged;
+0.24 dependency alignment and stable release acceptance are unfinished.
+
+`releases/qualification` records a verified prior immutable test snapshot and its
+original Actions provenance. It is qualification evidence, not an accepted stable
+release, and must not configure the stable release baseline variable.
+`releases/prepared` identifies the exact prepared wheel by digest. Package tests
+verify that binding and compare the rebuilt source archive's contract. Contracts
+include runtime resources, Python constraints, dependencies, extras and entry
+points. Dependency transitions require compatibility qualification before adoption.
+Existing owner test boundaries and live/provider qualification requirements apply.
+
 ## Test qualification and stable acceptance
 
 GitHub `test-<commit>` prereleases are development snapshots. Their embedded

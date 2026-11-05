@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "line": "0.1",
+  "components": {
+    "oracles": {
+      "version": "0.1.0",
+      "contract": "contract.json",
+      "contract_sha256": "787170f9c69486907d193295d4a0cd43b78c134c7d672884b292f15f519d0e61",
+      "artifact": {
+        "kind": "package",
+        "uri": "urn:sha256:1070794b9f412bdbded0efe4c065f09c45fbb55049b566a1268f1b107614f8dc",
+        "sha256": "1070794b9f412bdbded0efe4c065f09c45fbb55049b566a1268f1b107614f8dc"
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "coverage": "conservative complete packaged oracles-service runtime, resources and installer metadata",
+  "entry_points": null,
+  "packaged_file_sha256": {
+    "oracles_service/__init__.py": "a2fb4b23ab71fc0fda6ac2db3e439856c906c9e6c533a1b041e3eed770200046",
+    "oracles_service/app.py": "a93d801e113900fde07260ff9620686194a2912b6a5019304a5b54e32997add6",
+    "oracles_service/auth.py": "782b72fe9de25f68b087c182bda1b366b471b30b921e98dc03bb9c5cf24169ac",
+    "oracles_service/domain/__init__.py": "002e92c536ee1dc8d6fa39dfe643c92d891c0d81aa727a80b1c92a86c472d9bc",
+    "oracles_service/domain/models.py": "bb65494f2ed1e0ad0fd2b7c2edced38555425f86ec9c1a57b26b3751d6477314",
+    "oracles_service/events.py": "e9be4845ceccd80925af0c89918c9edd89bfada826cb8fd9776105e02943f224",
+    "oracles_service/interfaces/__init__.py": "605f090078d38a4e967a41b05511bf8d152e31288b861146f11edcab229b8275",
+    "oracles_service/interfaces/api/__init__.py": "a9a6ad43cf12479c92ec222275100e389232b14e6a07f9e72b37f9d98f2ddfa3",
+    "oracles_service/interfaces/api/routes.py": "4f616340890b891a3b3667b6c713955d68ac7b44854054378156af8c6d838b89",
+    "oracles_service/main.py": "4103971dcac806308111e54b8f985ea3b5d3d68099cb6f8c57abfcf1d1dbce33",
+    "oracles_service/middleware.py": "a1f49b7a8add3304601839a28d822539cb3b5060233ac01627dc1c96268f053b",
+    "oracles_service/settings.py": "4e10c9d3ad21f99f28beb37d0ccec30c083bc6ad88dd84eeaf5639ffbe3f2b13",
+    "oracles_service/tenant.py": "caa09856750e0ccc1e7b33255b8bdf50575b859e2f8c82073bce0799a8695dfe",
+    "oracles_service/upstream.py": "6fdd7012fbbbe13f691aba962203ba464e61251b2ffe8d5df47c10a130a18030"
+  },
+  "provides_extra": [],
+  "requires_dist": [
+    "controlplane-api @ git+https://github.com/hyperme-sh/controlplane-api.git@edac59b2cc55923c983a11a451c4bed9ce53edef",
+    "controlplane-core @ git+https://github.com/hyperme-sh/controlplane-core.git@8f66f5681b28e60a619344779252a5a048d39486",
+    "controlplane-db @ git+https://github.com/hyperme-sh/controlplane-db.git@9cfad090c48e28bc33d1a96369e7e856c203a2bf",
+    "controlplane-events @ git+https://github.com/hyperme-sh/controlplane-events.git@d8bc887460c08f30c6a1dcb951bac042bad326a7",
+    "controlplane-identity @ git+https://github.com/hyperme-sh/controlplane-identity.git@5675e7b617db705a7b0caf25f2d65d8a492f32b1",
+    "controlplane-tenancy @ git+https://github.com/hyperme-sh/controlplane-tenancy.git@09f26d3fa677b6cd8e43be3424b8e2fa793c6ba1"
+  ],
+  "requires_python": [
+    ">=3.13"
+  ],
+  "schema_version": 1
+}
