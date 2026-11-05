@@ -5,11 +5,11 @@
     "oracles": {
       "version": "0.1.0",
       "contract": "contract.json",
-      "contract_sha256": "787170f9c69486907d193295d4a0cd43b78c134c7d672884b292f15f519d0e61",
+      "contract_sha256": "94027aa6a8cfe68e3bfa281a84d6f993e30f9e81b0a0be6fc2d7b1a8ea2a68cd",
       "artifact": {
         "kind": "package",
-        "uri": "urn:sha256:1070794b9f412bdbded0efe4c065f09c45fbb55049b566a1268f1b107614f8dc",
-        "sha256": "1070794b9f412bdbded0efe4c065f09c45fbb55049b566a1268f1b107614f8dc"
+        "uri": "urn:sha256:1a1675dbd0c646f300b7b884778bc33b86831974b7cabeec485dafacedf9d0db",
+        "sha256": "1a1675dbd0c646f300b7b884778bc33b86831974b7cabeec485dafacedf9d0db"
       }
     }
   }
