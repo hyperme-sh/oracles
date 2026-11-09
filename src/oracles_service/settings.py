@@ -8,6 +8,7 @@ SIWE/ENS/ERC-1271 (those stay in the browser).
 from __future__ import annotations
 
 import ipaddress
+import math
 import os
 from dataclasses import dataclass
 from typing import Literal
@@ -91,7 +92,11 @@ def sanitize_subject(kind: str, subject: str) -> str:
     if any(ch.isspace() for ch in raw):
         raise AttestSubjectError(_BAD_SUBJECT)
     if "://" in raw:
-        parsed = urlparse(raw)
+        try:
+            parsed = urlparse(raw)
+            _ = parsed.port  # urllib validates the port on access.
+        except ValueError as exc:
+            raise AttestSubjectError(_BAD_SUBJECT) from exc
         if parsed.username or parsed.password:
             raise AttestSubjectError("subject must not include credentials")
         if parsed.scheme != "https":
@@ -113,7 +118,11 @@ def load_oracles_settings() -> OraclesSettings:
     if raw not in {"mock", "http"}:
         raise OraclesConfigError("ORACLES_UPSTREAM must be mock or http")
     timeout_raw = (os.environ.get(HTTP_TIMEOUT_ENV) or "").strip()
-    timeout = DEFAULT_HTTP_TIMEOUT_S if not timeout_raw else float(timeout_raw)
-    if timeout <= 0:
-        raise OraclesConfigError("ORACLES_HTTP_TIMEOUT_S must be > 0")
+    message = "ORACLES_HTTP_TIMEOUT_S must be finite and > 0"
+    try:
+        timeout = float(timeout_raw) if timeout_raw else DEFAULT_HTTP_TIMEOUT_S
+    except ValueError as exc:
+        raise OraclesConfigError(message) from exc
+    if not math.isfinite(timeout) or timeout <= 0:
+        raise OraclesConfigError(message)
     return OraclesSettings(upstream=raw, http_timeout_s=timeout)  # type: ignore[arg-type]

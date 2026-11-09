@@ -13,7 +13,7 @@
     "oracles_service/interfaces/api/routes.py": "4f616340890b891a3b3667b6c713955d68ac7b44854054378156af8c6d838b89",
     "oracles_service/main.py": "4103971dcac806308111e54b8f985ea3b5d3d68099cb6f8c57abfcf1d1dbce33",
     "oracles_service/middleware.py": "a1f49b7a8add3304601839a28d822539cb3b5060233ac01627dc1c96268f053b",
-    "oracles_service/settings.py": "4e10c9d3ad21f99f28beb37d0ccec30c083bc6ad88dd84eeaf5639ffbe3f2b13",
+    "oracles_service/settings.py": "9265d8c4297250fe28f3de6071a41adf047a8493836d81ad919b5d328c652fcb",
     "oracles_service/tenant.py": "caa09856750e0ccc1e7b33255b8bdf50575b859e2f8c82073bce0799a8695dfe",
     "oracles_service/upstream.py": "6fdd7012fbbbe13f691aba962203ba464e61251b2ffe8d5df47c10a130a18030"
   },
