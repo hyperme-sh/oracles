@@ -5,6 +5,8 @@ build-backend = "hatchling.build"
 [project]
 name = "oracles-service"
 version = "0.1.0"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
 requires-python = ">=3.13"
 description = "Oracles/validators control plane: public attestation / relay check (v0 shape)"
 dependencies = [
