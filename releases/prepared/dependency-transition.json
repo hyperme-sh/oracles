@@ -5,27 +5,27 @@
   "requirements": [
     {
       "before": "controlplane-api @ git+https://github.com/hyperme-sh/controlplane-api.git@edac59b2cc55923c983a11a451c4bed9ce53edef",
-      "after": "controlplane-api @ git+https://github.com/hyperme-sh/controlplane-api.git@82fc8c2ca21531f1a3f7a695257b3465c4a347da"
+      "after": "controlplane-api @ git+https://github.com/hyperme-sh/controlplane-api.git@0813448d067d59a0cc8fa2d144d85ddfde465af4"
     },
     {
       "before": "controlplane-core @ git+https://github.com/hyperme-sh/controlplane-core.git@8f66f5681b28e60a619344779252a5a048d39486",
-      "after": "controlplane-core @ git+https://github.com/hyperme-sh/controlplane-core.git@c46bf282a8f1a605cfb8acb9beafb474c0b1b0c8"
+      "after": "controlplane-core @ git+https://github.com/hyperme-sh/controlplane-core.git@ffcafeaba4ee0693cfc9682e5ff1b6ebb1ec78c0"
     },
     {
       "before": "controlplane-db @ git+https://github.com/hyperme-sh/controlplane-db.git@9cfad090c48e28bc33d1a96369e7e856c203a2bf",
-      "after": "controlplane-db @ git+https://github.com/hyperme-sh/controlplane-db.git@95ef61433374274f4a4fc287e15982be6357e1cc"
+      "after": "controlplane-db @ git+https://github.com/hyperme-sh/controlplane-db.git@907b9390b3d68aa67903ffec849e9f1d64c17f1f"
     },
     {
       "before": "controlplane-events @ git+https://github.com/hyperme-sh/controlplane-events.git@d8bc887460c08f30c6a1dcb951bac042bad326a7",
-      "after": "controlplane-events @ git+https://github.com/hyperme-sh/controlplane-events.git@2a49f9af5f6c4dc9d6c4ddebc83c41d6331e2c87"
+      "after": "controlplane-events @ git+https://github.com/hyperme-sh/controlplane-events.git@8f16587d105f7352891a1d9d77ec8305bbf5cd29"
     },
     {
       "before": "controlplane-identity @ git+https://github.com/hyperme-sh/controlplane-identity.git@5675e7b617db705a7b0caf25f2d65d8a492f32b1",
-      "after": "controlplane-identity @ git+https://github.com/hyperme-sh/controlplane-identity.git@127d15fce7c3af8d8f8e239fb306ce88de76f02a"
+      "after": "controlplane-identity @ git+https://github.com/hyperme-sh/controlplane-identity.git@5aeff3d2c00568f39ca6e8b75c7e63883d3a510b"
     },
     {
       "before": "controlplane-tenancy @ git+https://github.com/hyperme-sh/controlplane-tenancy.git@09f26d3fa677b6cd8e43be3424b8e2fa793c6ba1",
-      "after": "controlplane-tenancy @ git+https://github.com/hyperme-sh/controlplane-tenancy.git@f252909af772b2c820555af36de456d46f17cfcb"
+      "after": "controlplane-tenancy @ git+https://github.com/hyperme-sh/controlplane-tenancy.git@c1f37025a93c8b4e38699a42665ce380a66a54fd"
     }
   ],
   "version_policy": "pre-0.24",
