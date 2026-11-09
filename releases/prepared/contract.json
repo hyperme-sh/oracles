@@ -4,7 +4,7 @@
   "packaged_file_sha256": {
     "oracles_service/__init__.py": "a2fb4b23ab71fc0fda6ac2db3e439856c906c9e6c533a1b041e3eed770200046",
     "oracles_service/app.py": "a93d801e113900fde07260ff9620686194a2912b6a5019304a5b54e32997add6",
-    "oracles_service/auth.py": "782b72fe9de25f68b087c182bda1b366b471b30b921e98dc03bb9c5cf24169ac",
+    "oracles_service/auth.py": "bf73ae33d2a8034abe1090d3f2a29748dc0f51fabeec4ef366a101dd87ec7507",
     "oracles_service/domain/__init__.py": "002e92c536ee1dc8d6fa39dfe643c92d891c0d81aa727a80b1c92a86c472d9bc",
     "oracles_service/domain/models.py": "bb65494f2ed1e0ad0fd2b7c2edced38555425f86ec9c1a57b26b3751d6477314",
     "oracles_service/events.py": "e9be4845ceccd80925af0c89918c9edd89bfada826cb8fd9776105e02943f224",

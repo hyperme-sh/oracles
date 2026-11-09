@@ -44,6 +44,8 @@ def verify(before_path, after_path, transition_path, fixture_path):
     if 'settings_sha256' in transition:
         files = dict(before['packaged_file_sha256'])
         files['oracles_service/settings.py'] = transition['settings_sha256']
+        if 'auth_sha256' in transition:
+            files['oracles_service/auth.py'] = transition['auth_sha256']
         expected['packaged_file_sha256'] = files
     require(expected == after, 'Unexpected runtime or installer contract change')
 
