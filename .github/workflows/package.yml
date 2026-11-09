@@ -14,6 +14,9 @@ jobs:
       labels: [self-hosted, linux, x64, debrunner]
     outputs:
       digest: ${{ steps.registry.outputs.digest }}
+    concurrency:
+      group: oracles-main-runtime
+      cancel-in-progress: false
     timeout-minutes: 15
     environment: controlplane-libs-read
     steps:
@@ -97,6 +100,12 @@ jobs:
           [[ $digest =~ ^sha256:[0-9a-f]{64}$ ]]
           docker pull "$repo@$digest"
           test "$(docker image inspect "$source" --format '{{.Id}}')" = "$(docker image inspect "$repo@$digest" --format '{{.Id}}')"
+          # An older rerun can qualify its binary without rolling TEST back.
+          main_sha=$(GH_TOKEN="$REGISTRY_TOKEN" gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main" --jq .object.sha)
+          if [[ "$main_sha" == "$GITHUB_SHA" ]]; then
+            docker buildx imagetools create --prefer-index=false --tag "$repo:test" "$repo@$digest"
+            test "$(docker buildx imagetools inspect "$repo:test" --format '{{.Manifest.Digest}}')" = "$digest"
+          fi
           echo "digest=$digest" >> "$GITHUB_OUTPUT"
       - name: Clean job-owned runtime and package bytes
         if: always()
