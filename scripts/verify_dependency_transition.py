@@ -41,6 +41,10 @@ def verify(before_path, after_path, transition_path, fixture_path):
         require(requirements.count(change['before']) == 1, 'Transition source missing or ambiguous')
         requirements[requirements.index(change['before'])] = change['after']
     expected['requires_dist'] = sorted(requirements)
+    if 'settings_sha256' in transition:
+        files = dict(before['packaged_file_sha256'])
+        files['oracles_service/settings.py'] = transition['settings_sha256']
+        expected['packaged_file_sha256'] = files
     require(expected == after, 'Unexpected runtime or installer contract change')
 
 

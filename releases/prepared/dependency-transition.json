@@ -37,5 +37,6 @@
     "controlplane-events": "0.1.0",
     "operator-ban-store": "0.1.0",
     "controlplane-core": "0.1.0"
-  }
+  },
+  "settings_sha256": "9265d8c4297250fe28f3de6071a41adf047a8493836d81ad919b5d328c652fcb"
 }

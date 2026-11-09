@@ -22,9 +22,11 @@ HTTP tests use mock upstreams and disable database middleware; they require no
 live chain or relay access. Service/container wiring and consumer acceptance
 require separate validation before deployment.
 
-The main-only shared-runner workflow uses pinned actions, read-only contents and exact
-repository credential headers. Actions remains disabled pending approved scoped
-DEPENDENCY_READ_TOKEN access and shared-runner qualification. No publishing or deployment.
+Main validation runs on the shared-local debrunner group. The controlplane-libs-read
+environment supplies the GitHub App credentials used to mint a short-lived token
+with contents-read access to the seven declared dependency repositories. The
+package check applies credentials only to those exact Git repository URLs.
+Pull-request preparation uses pinned wheel fixtures on debrunners.
 
 HTTP relay fetching rejects non-public DNS answers and pins the connection to a
 validated address while preserving TLS hostname verification. It bypasses environment
@@ -67,7 +69,7 @@ release, and must not configure the stable release baseline variable.
 verify that binding and compare the rebuilt source archive's contract. Contracts
 include runtime resources, Python constraints, dependencies, extras and entry
 points. An explicit qualification-only transition lists the old and new private
-pins and binds them to the complete 0.24 fixture graph. Runtime bytes, Python
+pins and binds them to the complete 0.24 fixture graph. The transition also pins the settings module digest for the URL and timeout validation fixes. Other runtime bytes, Python
 constraints, registry requirements, extras and entry points must remain unchanged.
 Source, installed-wheel and rebuilt-archive consumers qualify this exact graph;
 this does not waive stable admission or authorize arbitrary dependency changes.

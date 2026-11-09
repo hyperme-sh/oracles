@@ -339,3 +339,27 @@ async def test_openapi_includes_attest(http_client):
     schemes = spec["components"]["securitySchemes"]
     assert "ApiKeyAuth" in schemes
     assert schemes["ApiKeyAuth"]["name"] == "X-Api-Key"
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("subject", ["https://[bad/", "https://example.com:bad/"])
+async def test_invalid_url_returns_400(http_client, tenant_headers, subject):
+    response = await http_client.post(
+        "/api/v1/oracles/v0/attest",
+        headers=tenant_headers,
+        json={"kind": "public_relay", "subject": subject},
+    )
+    assert response.status_code == 400
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("timeout", ["invalid", "nan", "inf", "-inf", "0", "-1"])
+async def test_invalid_timeout_returns_503(http_client, tenant_headers, monkeypatch, timeout):
+    monkeypatch.setenv("ORACLES_HTTP_TIMEOUT_S", timeout)
+    response = await http_client.post(
+        "/api/v1/oracles/v0/attest",
+        headers=tenant_headers,
+        json={"kind": "public_attestation", "subject": _ATTEST_SUBJECT},
+    )
+    assert response.status_code == 503
+    assert "ORACLES_HTTP_TIMEOUT_S" in response.json()["detail"]
