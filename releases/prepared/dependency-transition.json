@@ -38,5 +38,6 @@
     "operator-ban-store": "0.1.0",
     "controlplane-core": "0.1.0"
   },
-  "settings_sha256": "9265d8c4297250fe28f3de6071a41adf047a8493836d81ad919b5d328c652fcb"
+  "settings_sha256": "9265d8c4297250fe28f3de6071a41adf047a8493836d81ad919b5d328c652fcb",
+  "auth_sha256": "bf73ae33d2a8034abe1090d3f2a29748dc0f51fabeec4ef366a101dd87ec7507"
 }
