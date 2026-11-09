@@ -273,6 +273,20 @@ async def test_attest_service_exchange_jwt(http_client, tenant_a):
 
 
 @pytest.mark.asyncio
+@pytest.mark.parametrize("scope,expected", [("oracles:attest", 200), ("oracles:read", 401), ("", 401)])
+async def test_scoped_exchange_requires_attest(http_client, tenant_a, monkeypatch, scope, expected):
+    from api.infrastructure.security.api_key_exchange_jwt import mint_api_key_session_jwt
+
+    monkeypatch.setenv("ORACLES_AUTH_MODE", "scoped-exchange")
+    token = mint_api_key_session_jwt(key_record_id=tenant_a, tenant_id=tenant_a, scopes=[scope], purpose="service")
+    headers = {"X-Tenant-ID": str(tenant_a), "Authorization": f"Bearer {token}"}
+    body = {"kind": "public_attestation", "subject": _ATTEST_SUBJECT}
+    route = "/api/v1/oracles/v0/attest"
+    assert (await http_client.post(route, headers=headers, json=body)).status_code == expected
+    assert (await http_client.post(route, headers={"X-Tenant-ID": str(tenant_a), "X-Api-Key": "test.secret"}, json=body)).status_code == 401
+
+
+@pytest.mark.asyncio
 async def test_attest_rejects_ir_and_renter_purpose(http_client, tenant_a):
     from api.infrastructure.security.api_key_exchange_jwt import mint_api_key_session_jwt
 

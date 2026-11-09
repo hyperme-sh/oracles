@@ -11,6 +11,7 @@ stay out.
 
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass
 from typing import Any, Literal
 
@@ -117,6 +118,13 @@ def require_service_grant(request: Request) -> ServiceGrant:
     bearer = _bearer(request)
     header_key = _api_key_header(request)
 
+    exchange_mode = os.environ.get("ORACLES_AUTH_MODE", "compatible")
+    if exchange_mode not in ("compatible", "scoped-exchange"):
+        raise AttestUnauthorized()
+    strict = exchange_mode == "scoped-exchange"
+    if strict and (not bearer or not looks_like_jwt(bearer)):
+        raise AttestUnauthorized()
+
     if bearer:
         if _forbidden_identity(bearer):
             raise AttestUnauthorized()
@@ -127,6 +135,11 @@ def require_service_grant(request: Request) -> ServiceGrant:
             purpose = str(claims.get("purpose") or "").strip().lower()
             if purpose != ATTEST_PURPOSE_SERVICE:
                 raise AttestUnauthorized(ATTEST_PURPOSE_REQUIRED)
+            if strict:
+                tenant = claims.get(TENANT_CLAIM) or claims.get("tenant_id")
+                scopes = claims.get("scope")
+                if str(tenant) != str(tenant_id) or not isinstance(scopes, str) or "oracles:attest" not in scopes.split():
+                    raise AttestUnauthorized()
             return ServiceGrant(
                 kind="exchange_jwt",
                 subject=_subject_from_jwt(claims),
