@@ -47,6 +47,7 @@ jobs:
           python-version: '3.13'
       - name: Validate Oracles package
         env:
+          TMPDIR: ${{ runner.temp }}
           DEPENDENCY_READ_TOKEN: ${{ steps.dependency-token.outputs.token }}
         shell: bash
         run: |
