@@ -17,9 +17,6 @@ jobs:
     concurrency:
       group: oracles-main-runtime
       cancel-in-progress: false
-    env:
-      # Keep package environments off the shared, inode-limited /tmp tmpfs.
-      TMPDIR: ${{ runner.temp }}
     timeout-minutes: 15
     environment: controlplane-libs-read
     steps:
@@ -50,6 +47,7 @@ jobs:
           python-version: '3.13'
       - name: Validate Oracles package
         env:
+          TMPDIR: ${{ runner.temp }}
           DEPENDENCY_READ_TOKEN: ${{ steps.dependency-token.outputs.token }}
         shell: bash
         run: |
