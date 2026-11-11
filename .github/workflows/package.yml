@@ -17,6 +17,9 @@ jobs:
     concurrency:
       group: oracles-main-runtime
       cancel-in-progress: false
+    env:
+      # Keep package environments off the shared, inode-limited /tmp tmpfs.
+      TMPDIR: ${{ runner.temp }}
     timeout-minutes: 15
     environment: controlplane-libs-read
     steps:

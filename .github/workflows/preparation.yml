@@ -6,6 +6,9 @@ permissions:
 jobs:
   package:
     runs-on: [self-hosted, linux, x64, debrunner]
+    env:
+      # Keep package environments off the shared, inode-limited /tmp tmpfs.
+      TMPDIR: ${{ runner.temp }}
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
