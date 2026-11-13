@@ -10,8 +10,8 @@ missing metadata that needs review. Base-image copyright files remain installed.
 The locked source owners are controlplane-api, controlplane-core, controlplane-db,
 controlplane-events, controlplane-identity, controlplane-tenancy and user-service's
 operator-ban-store contract. These repositories are public; exact revisions stay
-in uv.lock and the verified unit-test fixture manifest. An anonymous image build
-must succeed before any dependency credential is retired.
+in uv.lock and the verified unit-test fixture manifest. Anonymous image CI passed for all locked revisions before the obsolete dependency
+read token was removed. Registry publication retains its separate scoped credential.
 
 The source scanner preserves AGENTS.md and checks the current committed tree.
 Every final-image layer is scanned, including lower-layer files removed later.
