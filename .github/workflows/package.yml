@@ -75,13 +75,12 @@ jobs:
       - name: Qualify registry runtime from the tested distribution
         run: |
           set -euo pipefail
-          cd "$RELEASE_ARTIFACT_DIR"
-          python3 -m zipfile -c tested-dist.zip *.whl *.tar.gz
-          cd "$GITHUB_WORKSPACE"
           uv export --frozen --no-dev --no-emit-project --no-hashes --format requirements-txt -o "$RELEASE_ARTIFACT_DIR/requirements.txt"
           source="oracles-ci:$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
           docker build -f Dockerfile --label "org.opencontainers.image.revision=$GITHUB_SHA" -t "$source" "$RELEASE_ARTIFACT_DIR"
           docker run --rm --network none --read-only --cap-drop ALL --entrypoint python "$source" -Ic 'from oracles_service.app import app; assert "/api/v1/oracles/v0/attest" in app.openapi()["paths"]'
+      - name: Audit the exact runtime before TEST publication
+        run: bash scripts/check-distribution.sh --image "oracles-ci:$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
       - name: Publish qualified runtime to GHCR
         id: registry
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'

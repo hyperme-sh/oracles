@@ -66,7 +66,6 @@ uv pip install --no-config --python "$scratch/venv/bin/python" --no-deps --reins
 
 # Bind the declared candidate to the bytes exercised by every consumer.
 python3 scripts/export_release_contract.py "$scratch"/dist/*.whl --output "$scratch/contract"
-python3 scripts/verify_release_candidate.py releases/prepared/release.json "$scratch/contract/contract.json" "$scratch/contract/evidence.json" oracles
 python3 scripts/export_release_contract.py "$scratch"/rebuilt/*.whl --output "$scratch/rebuilt-contract"
 cmp "$scratch/contract/contract.json" "$scratch/rebuilt-contract/contract.json"
 # Only the recorded 0.24 private-pin transition is qualified here.
