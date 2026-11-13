@@ -1,0 +1,22 @@
+[extend]
+useDefault = true
+
+[[rules]]
+id = "generic-api-key"
+[[rules.allowlists]]
+description = "Reviewed historical runtime-file SHA256 values, not credentials"
+condition = "AND"
+paths = ['''releases/(qualification/contract|prepared/(contract|dependency-transition))\.json$''']
+regexTarget = "line"
+regexes = [
+  '''"oracles_service/auth\.py": "bf73ae33d2a8034abe1090d3f2a29748dc0f51fabeec4ef366a101dd87ec7507"''',
+  '''"oracles_service/auth\.py": "782b72fe9de25f68b087c182bda1b366b471b30b921e98dc03bb9c5cf24169ac"''',
+  '''"auth_sha256": "bf73ae33d2a8034abe1090d3f2a29748dc0f51fabeec4ef366a101dd87ec7507"''',
+]
+
+[[rules.allowlists]]
+description = "Public signing fingerprint from the official Python base image"
+condition = "AND"
+paths = ['image-config\.json$']
+regexTarget = "line"
+regexes = ['GPG_KEY=7169605F62C751356D054A26A821E680E5FA6305']
