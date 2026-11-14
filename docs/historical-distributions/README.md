@@ -58,7 +58,16 @@ content and other registries are outside this inventory. Local package-version
 API access was denied for lack of read:packages; hosted CI uses repository-scoped
 read access rather than expanding that credential.
 
-An attempted read-only ACR inventory on 2026-11-14 could not authenticate with the
-available Azure session. No ACR image has been reviewed by this workflow. ACR
-coverage requires working read-only access and an inventory of the retained
-Oracles repositories; it must not be inferred from GHCR scan results.
+The ACR inventory is separate from this GHCR enumeration. Read-only access must
+use Infra's configured Azure subscription, not a workstation's unrelated default.
+The one-off `Archived registry image review` workflow accepts an observed digest
+and reads a temporary pull-only credential through repository secrets. Its
+operator supplies the registry host and `oracles` repository scope, verifies the
+credential's pull-only claims, runs the static job and deletes those temporary
+secrets afterward. It does not create Azure identities or role grants, write
+registry tags, start a container, or invoke nightly integration/e2e.
+
+ACR inventory and reviewed digest results are recorded in Infra #993. Untagged
+and deleted versions cannot be inferred from GHCR tags; they require their own
+registry inventory. The report must identify exactly which registry snapshot
+was compared with the completed digest scans.

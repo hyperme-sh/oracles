@@ -4,7 +4,14 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 digest=${1:?Digest required}
 [[ "$digest" =~ ^sha256:[0-9a-f]{64}$ ]]
-image="ghcr.io/hyperme-sh/oracles/runtime@$digest"
+registry=${HISTORICAL_REGISTRY:-ghcr.io}
+repository=${HISTORICAL_REPOSITORY:-hyperme-sh/oracles/runtime}
+if [[ "$registry" == ghcr.io ]]; then
+  [[ "$repository" == hyperme-sh/oracles/runtime ]]
+else
+  [[ "$registry" =~ ^[a-z0-9]+\.azurecr\.io$ && "$repository" == oracles ]]
+fi
+image="$registry/$repository@$digest"
 scratch=$(mktemp -d)
 export DOCKER_CONFIG="$scratch/docker"
 cleanup() { docker image rm "$image" >/dev/null 2>&1 || true; rm -rf -- "$scratch"; }
@@ -12,7 +19,7 @@ trap cleanup EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM
 mkdir -p "$DOCKER_CONFIG" "$scratch/tool" "$scratch/layers"
-printf '%s' "$REGISTRY_TOKEN" | docker login ghcr.io --username "$REGISTRY_USER" --password-stdin
+printf '%s' "$REGISTRY_TOKEN" | docker login "$registry" --username "$REGISTRY_USER" --password-stdin
 unset REGISTRY_TOKEN
 docker pull --platform linux/amd64 "$image"
 rm -rf "$DOCKER_CONFIG"
