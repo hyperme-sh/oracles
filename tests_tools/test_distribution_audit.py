@@ -96,3 +96,21 @@ def test_owner_notices_reject_missing_changed_or_empty_text(tmp_path, failure):
         (installed / 'NOTICE').write_text('')
     with pytest.raises((ValueError, FileNotFoundError)):
         audit.verify_owner_notices(source, installed)
+
+
+def test_final_image_notice_inventory_and_bytes_are_verified(tmp_path):
+    import hashlib
+    (tmp_path / 'LICENSE').write_text('owner terms')
+    (tmp_path / 'NOTICE').write_text('owner attribution')
+    directory = tmp_path / 'third-party/example'
+    directory.mkdir(parents=True)
+    (directory / 'LICENSE').write_bytes(b'upstream terms')
+    rows = [{'name': 'example', 'version': '1.0', 'texts': {
+        'LICENSE': {'file': 'LICENSE', 'sha256': hashlib.sha256(b'upstream terms').hexdigest()}}}]
+    (tmp_path / 'third-party/index.json').write_text(json.dumps(rows))
+    audit.verify_notice_bundle(tmp_path, [{'name': 'example', 'version': '1.0'}])
+    with pytest.raises(ValueError, match='inventory'):
+        audit.verify_notice_bundle(tmp_path, [{'name': 'example', 'version': '2.0'}])
+    (directory / 'LICENSE').write_bytes(b'altered terms')
+    with pytest.raises(ValueError, match='bytes'):
+        audit.verify_notice_bundle(tmp_path, [{'name': 'example', 'version': '1.0'}])

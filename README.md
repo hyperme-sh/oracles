@@ -31,7 +31,8 @@ of other services. Production publication remains separately authorized.
 
 Read-only preparation CI builds without dependency credentials, scans committed
 source and every final-image layer, checks for private content and hosted payment
-modules, and inventories installed licenses/notices. It verifies that installed
+modules, and verifies copied installed licenses/notices. A non-shallow history scan
+reports historical hosted content and rejects unexpected secret findings. It verifies that installed
 Oracles runtime bytes match the committed source. Temporary scan outputs are
 removed; no package or scan artifact is uploaded.
 

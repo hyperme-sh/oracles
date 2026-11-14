@@ -1,0 +1,114 @@
+[extend]
+useDefault = true
+
+[[rules]]
+id = "generic-api-key"
+
+[[rules.allowlists]]
+description = "Verified file hashes or official Python signing fingerprint in this immutable object"
+condition = "AND"
+paths = ['4d91b704518ed99509cdc22a28ae786091df18db\.txt$']
+regexTarget = "secret"
+regexes = [
+  '^782b72fe9de25f68b087c182bda1b366b471b30b921e98dc03bb9c5cf24169ac$',
+]
+
+[[rules.allowlists]]
+description = "Verified file hashes or official Python signing fingerprint in this immutable object"
+condition = "AND"
+paths = ['8405ab8edeba907e7b9aa24566c3816391948f58-68\.txt$']
+regexTarget = "secret"
+regexes = [
+  '^481b65c660302dd20e8db86199efd257a84b336c8d9a48860677661ff6117d75$',
+  '^65f784e91b7e05e36689f75770fbdceb52d142e7ddf26201f23c7aad01516b25$',
+  '^8476aaec63a42c56e9b433944ff5a2c51b336cae9571b0779a7506014e4f25f2$',
+  '^a4af6d69e07bf17ffed400f8287c79123daf35f7b42aed512f870d15c475d275$',
+]
+
+[[rules.allowlists]]
+description = "Verified file hashes or official Python signing fingerprint in this immutable object"
+condition = "AND"
+paths = ['86188df178181f2b5a8d000ca0342ccd1c28d08f-68\.txt$']
+regexTarget = "secret"
+regexes = [
+  '^481b65c660302dd20e8db86199efd257a84b336c8d9a48860677661ff6117d75$',
+  '^65f784e91b7e05e36689f75770fbdceb52d142e7ddf26201f23c7aad01516b25$',
+  '^8476aaec63a42c56e9b433944ff5a2c51b336cae9571b0779a7506014e4f25f2$',
+  '^a4af6d69e07bf17ffed400f8287c79123daf35f7b42aed512f870d15c475d275$',
+]
+
+[[rules.allowlists]]
+description = "Verified file hashes or official Python signing fingerprint in this immutable object"
+condition = "AND"
+paths = ['929c7fa2a1f9042eee8b03b702221f1172c6c10e\.txt$']
+regexTarget = "secret"
+regexes = [
+  '^bf73ae33d2a8034abe1090d3f2a29748dc0f51fabeec4ef366a101dd87ec7507$',
+]
+
+[[rules.allowlists]]
+description = "Verified file hashes or official Python signing fingerprint in this immutable object"
+condition = "AND"
+paths = ['a9a0cf5e24f02041ff8e0a7af92920495cb55481-68\.txt$']
+regexTarget = "secret"
+regexes = [
+  '^481b65c660302dd20e8db86199efd257a84b336c8d9a48860677661ff6117d75$',
+  '^65f784e91b7e05e36689f75770fbdceb52d142e7ddf26201f23c7aad01516b25$',
+  '^8476aaec63a42c56e9b433944ff5a2c51b336cae9571b0779a7506014e4f25f2$',
+  '^a4af6d69e07bf17ffed400f8287c79123daf35f7b42aed512f870d15c475d275$',
+]
+
+[[rules.allowlists]]
+description = "Verified file hashes or official Python signing fingerprint in this immutable object"
+condition = "AND"
+paths = ['bfe4ceb35f423b606ee7b49482214aa62c7f7406\.txt$']
+regexTarget = "secret"
+regexes = [
+  '^7169605F62C751356D054A26A821E680E5FA6305$',
+  '^bf73ae33d2a8034abe1090d3f2a29748dc0f51fabeec4ef366a101dd87ec7507$',
+]
+
+[[rules.allowlists]]
+description = "Verified file hashes or official Python signing fingerprint in this immutable object"
+condition = "AND"
+paths = ['d092166a7aaa663bc66220b76d4b422a49b51747\.txt$']
+regexTarget = "secret"
+regexes = [
+  '^782b72fe9de25f68b087c182bda1b366b471b30b921e98dc03bb9c5cf24169ac$',
+]
+
+[[rules.allowlists]]
+description = "Verified file hashes or official Python signing fingerprint in this immutable object"
+condition = "AND"
+paths = ['e23ec42fa63268604c48ba060631864bfe1e1724\.txt$']
+regexTarget = "secret"
+regexes = [
+  '^782b72fe9de25f68b087c182bda1b366b471b30b921e98dc03bb9c5cf24169ac$',
+]
+
+[[rules.allowlists]]
+description = "Verified file hashes or official Python signing fingerprint in this immutable object"
+condition = "AND"
+paths = ['f322b87c07c9c99148ecc155b56a249683ce1135\.txt$']
+regexTarget = "secret"
+regexes = [
+  '^782b72fe9de25f68b087c182bda1b366b471b30b921e98dc03bb9c5cf24169ac$',
+]
+
+[[rules.allowlists]]
+description = "Verified file hashes or official Python signing fingerprint in this immutable object"
+condition = "AND"
+paths = ['fc08b4a83e27d142599e163c012ea11b09b39e6f\.txt$']
+regexTarget = "secret"
+regexes = [
+  '^bf73ae33d2a8034abe1090d3f2a29748dc0f51fabeec4ef366a101dd87ec7507$',
+]
+
+[[rules.allowlists]]
+description = "Verified file hashes or official Python signing fingerprint in this immutable object"
+condition = "AND"
+paths = ['feadea3e741ff6d32ef8ca256b70ba5253b5bccf\.txt$']
+regexTarget = "secret"
+regexes = [
+  '^782b72fe9de25f68b087c182bda1b366b471b30b921e98dc03bb9c5cf24169ac$',
+]

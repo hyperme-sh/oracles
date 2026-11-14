@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
+uv python install 3.13
 python=$(uv python find 3.13)
 scratch=$(mktemp -d)
 owned_image=1
@@ -37,6 +38,8 @@ scan "$scratch/source"
 if [[ "$owned_image" == 1 ]]; then
   (cd "$scratch/source" && uv build --wheel --out-dir "$scratch/dist" &&
     uv export --frozen --no-dev --no-emit-project --no-hashes --format requirements-txt --output-file "$scratch/dist/requirements.txt")
+  cp "$scratch/source/scripts/prepare_notices.py" "$scratch/dist/"
+  cp -R "$scratch/source/.github/workflows/third-party-notices" "$scratch/dist/"
   docker build --label "org.opencontainers.image.revision=$(git rev-parse HEAD)" \
     --file "$scratch/source/Dockerfile" --tag "$image" "$scratch/dist"
 fi

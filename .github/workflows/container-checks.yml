@@ -7,15 +7,18 @@ permissions:
   contents: read
 jobs:
   container:
-    runs-on: [self-hosted, linux, x64, debrunner]
+    runs-on: ${{ github.event.repository.private && fromJSON('["self-hosted", "linux", "x64", "debrunner"]') || 'ubuntu-24.04' }}
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
+          fetch-depth: 0
       - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
         with:
           version: '0.11.26'
           python-version: '3.13'
+      - name: Review reachable source history
+        run: bash scripts/check-history.sh
       - name: Check source and container distribution boundaries
         run: bash scripts/check-distribution.sh
