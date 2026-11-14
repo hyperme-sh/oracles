@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "$0")/.."
+uv python install 3.13
 python=$(uv python find 3.13)
 scratch=$(mktemp -d)
 owned_image=1
