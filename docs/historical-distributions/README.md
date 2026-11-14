@@ -79,7 +79,10 @@ The configured Infra subscription contains one retained `oracles` manifest,
 tagged `verification-test-f5e1e8d08d3cb013a46fddc8b08f50eeaf557cf2`.
 Hosted static review [43608261141](https://github.com/hyperme-sh/oracles/actions/runs/43608261141)
 inspected all six saved layers without starting the image. It reported 1,702
-hosted-code matches, 187 installed distribution metadata records, and no files
+policy matches: 50 owner-package matches and 1,652 Stripe SDK/metadata matches.
+The latter are third-party provider code, not private business source. Detailed
+private-image file coordinates remain outside this public repository.
+It also reported 187 installed distribution metadata records and no files
 under the standardized `/usr/share/doc/oracles-service` legal bundle path.
 The user configuration was `65532:65532`. These are layer observations, not
 permission to distribute the image or a claim that every dependency lacks legal
