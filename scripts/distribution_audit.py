@@ -25,6 +25,21 @@ PRIVATE_PARTS = {'.git', '.aws', '.azure', '.ssh', 'private-rules', 'review-data
 PRIVATE_VALUE = re.compile(r'(?:acrfyber[a-z0-9]*\.azurecr\.io|[a-z0-9-]+\.privatelink\.[a-z0-9.-]+|[a-z0-9-]+\.ts\.net)', re.I)
 
 
+OWNERS = ('api/', 'controlplane_api/', 'controlplane_db/', 'controlplane_events/',
+          'controlplane_identity/', 'controlplane_tenancy/', 'operator_ban_store/', 'oracles_service/')
+FORBIDDEN = re.compile(r'(^|/)(stripe|controlplane_billing|payment_service)([/.\-]|$)|^api/[^\n]*(billing|payment|stripe)', re.I)
+
+
+def check_member(name, data):
+    if FORBIDDEN.search(name):
+        raise ValueError('Hosted implementation in ' + name)
+    if name.startswith(OWNERS) and name.endswith(('.py', '.json', '.toml')):
+        if re.search(rb'\bstripe\b', data, re.I):
+            raise ValueError('Provider implementation in ' + name)
+    if name.endswith('.dist-info/METADATA') and re.search(rb'^Requires-Dist: (stripe|controlplane-billing|payment-service)\b', data, re.M | re.I):
+        raise ValueError('Hosted dependency in ' + name)
+
+
 def git_inventory(root):
     rows=[]
     for package in tomllib.loads((root/'uv.lock').read_text())['package']:
@@ -144,6 +159,28 @@ def installed_inventory():
     return sorted(rows,key=lambda row:row['name'].lower())
 
 
+def verify_notice_bundle(directory, distributions):
+    index = json.loads((directory / 'third-party/index.json').read_text())
+    actual = {(row['name'], row['version']) for row in index}
+    expected = {(row['name'], row['version']) for row in distributions}
+    if actual != expected or len(actual) != len(index):
+        raise ValueError('Notice inventory differs from installed distributions')
+    for name in ('LICENSE', 'NOTICE'):
+        if not (directory / name).is_file() or not (directory / name).read_bytes():
+            raise ValueError('Missing owner license or notice')
+    for row in index:
+        key = re.sub(r'[-_.]+', '-', row['name']).lower()
+        if not re.fullmatch('[a-z0-9][a-z0-9-]*', key) or not row['texts']:
+            raise ValueError('Invalid notice identity or empty text inventory')
+        for record in row['texts'].values():
+            filename = record['file']
+            if Path(filename).name != filename:
+                raise ValueError('Unsafe notice filename')
+            path = directory / 'third-party' / key / filename
+            if hashlib.sha256(path.read_bytes()).hexdigest() != record['sha256']:
+                raise ValueError('Installed notice bytes differ from index')
+
+
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['source','image','installed'])
     parser.add_argument('--owner-source');parser.add_argument('path',nargs='?');parser.add_argument('--output');args=parser.parse_args()
@@ -156,4 +193,5 @@ if __name__=='__main__':
         if args.path:verify_runtime_source(Path(args.path))
         if args.owner_source:verify_owner_notices(Path(args.owner_source))
         result=installed_inventory()
+        verify_notice_bundle(Path("/usr/share/doc/oracles-service"), result)
     print(json.dumps(result,sort_keys=True,indent=2))

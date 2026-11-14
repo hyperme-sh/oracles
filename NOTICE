@@ -4,6 +4,7 @@ Copyright 2026 Fyber Labs
 Licensed under the Apache License, Version 2.0. See LICENSE.
 
 Controlplane dependencies and other third-party software retain their own terms
-and are not relicensed by this file. Installed Python distribution metadata
-retains the notices supplied by those distributions. Python and Debian
+and are not relicensed by this file. The image includes copied dependency texts and an installed-version inventory
+under /usr/share/doc/oracles-service/third-party. Notice and history tooling is
+adapted from hyperme-sh/product-template and hyperme-sh/turn (Apache-2.0). Python and Debian
 base-image notices remain at their original system locations.

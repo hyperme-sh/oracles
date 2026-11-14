@@ -5,8 +5,21 @@ or change the existing Apache-2.0 license. LICENSE is retained in source and in 
 installed distribution. The root NOTICE identifies the owner and preserves
 third-party terms. Both texts are checked byte-for-byte in the wheel, rebuilt
 source archive wheel and final image at `/usr/share/doc/oracles-service`. Installed
-third-party license declarations and notice paths are reported by CI, including
-missing metadata that needs review. Base-image copyright files remain installed.
+third-party license declarations and copied texts are recorded in the image at
+`/usr/share/doc/oracles-service/third-party`. Builds reject missing texts,
+incorrect supplement versions and changed hashes. The final-image check compares
+the index against every installed distribution and verifies the copied bytes.
+Base-image copyright files remain installed.
+
+Streamlit 1.66.1 uses its exact upstream LICENSE and NOTICES. jwcrypto 1.6.1,
+psycopg 3.3.7 and psycopg-binary 3.3.7 include the full GPL text referenced by
+their LGPL terms; the binary package also retains the libxcrypt notices.
+Verbatim upstream texts and source/version/hash records live under
+`.github/workflows/third-party-notices`. These four locked wheel inventories
+match the previously reviewed product-template inputs. operator-ban-store's
+locked revision already includes its owner license and requires no supplement.
+These copied texts do not claim completion of LGPL/MPL corresponding-source,
+native build or replacement preparation; those remain separate follow-ups.
 
 The locked source owners are controlplane-api, controlplane-core, controlplane-db,
 controlplane-events, controlplane-identity, controlplane-tenancy and user-service's
@@ -22,5 +35,6 @@ Notebook browser extensions are omitted from this API runtime; installed package
 licenses remain intact.
 
 Successful preparation does not establish public visibility, publication authority,
-shared TEST readiness or production readiness. Historical Git and older published
-images have a separate pre-public review under Infra #993. No Git history is rewritten.
+shared TEST readiness or production readiness. The [reachable-history review](history-review.md)
+records historical hosted-code findings; older published images remain outside
+this current-image review. No Git history is rewritten.

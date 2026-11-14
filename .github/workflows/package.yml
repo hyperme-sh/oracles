@@ -37,6 +37,8 @@ jobs:
           set -euo pipefail
           uv export --frozen --no-dev --no-emit-project --no-hashes --format requirements-txt -o "$RELEASE_ARTIFACT_DIR/requirements.txt"
           source="oracles-ci:$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          cp scripts/prepare_notices.py "$RELEASE_ARTIFACT_DIR/"
+          cp -R .github/workflows/third-party-notices "$RELEASE_ARTIFACT_DIR/"
           docker build -f Dockerfile --label "org.opencontainers.image.revision=$GITHUB_SHA" -t "$source" "$RELEASE_ARTIFACT_DIR"
           docker run --rm --network none --read-only --cap-drop ALL --entrypoint python "$source" -Ic 'from oracles_service.app import app; assert "/api/v1/oracles/v0/attest" in app.openapi()["paths"]'
       - name: Audit the exact runtime before TEST publication

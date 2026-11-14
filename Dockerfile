@@ -3,6 +3,9 @@ COPY requirements.txt *.whl /candidate/
 RUN python -m venv /opt/runtime && /opt/runtime/bin/pip install --no-cache-dir -r /candidate/requirements.txt && /opt/runtime/bin/pip install --no-deps /candidate/*.whl && /opt/runtime/bin/pip check
 # Copy the owner texts from the installed, qualified distribution.
 RUN /opt/runtime/bin/python -c "from importlib.metadata import distribution; from pathlib import Path; import shutil; d=distribution('oracles-service'); out=Path('/owner-notices'); out.mkdir(); [(shutil.copyfile(d.locate_file(next(p for p in d.files if str(p).endswith('.dist-info/licenses/'+name))), out/name)) for name in ('LICENSE', 'NOTICE')]"
+COPY prepare_notices.py /notice-tools/prepare_notices.py
+COPY third-party-notices /notice-tools/supplements
+RUN /opt/runtime/bin/python /notice-tools/prepare_notices.py /owner-notices/third-party /notice-tools/supplements
 # API runtime does not serve notebook browser extensions.
 RUN rm -rf /opt/runtime/share/jupyter
 
