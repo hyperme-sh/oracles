@@ -1,0 +1,61 @@
+# Historical distribution review
+
+This is a read-only review. It neither deletes nor rewrites Git objects, registry
+versions, tags or releases, and it does not change repository/package visibility.
+No running TEST channel is pinned or moved by the review.
+
+## Source findings
+
+[source-findings.json](source-findings.json) classifies the 162 matches in 12
+historical wheel blobs reported by the earlier reachable-history review. Each
+entry identifies the Git object, member and SHA-256; no source contents or
+credential values are copied into the report. The non-shallow history check
+compares these classifications with actual archived bytes and reports new,
+unclassified matches separately.
+
+The matches include 75 database migrations, 36 domain contracts, 15 persistence
+implementation files, 12 event contracts, 6 business implementation files,
+6 configuration/metric references, 3 provider adapters, 3 messaging integrations,
+3 dependency wiring files and 3 dependency metadata files. Counts include repeated
+members across different historical wheel versions. Contracts or references are
+not silently treated as private implementation, nor do classifications establish
+permission to distribute the historical implementations. All remain retained;
+content disposition is separate from this review and constrained by the owner's
+no-rewrite instruction.
+
+## Older GHCR images
+
+The hosted `Historical image review` workflow uses a read-only package token to
+paginate every currently retained tag in `hyperme-sh/oracles/runtime`. It records
+tag-to-manifest observations, deduplicates immutable Linux amd64 digests and
+reports other platform descriptors without claiming they were scanned. Each
+matrix job pulls by the observed digest, removes its registry credentials and
+inspects every saved layer, including files deleted by subsequent layers. It
+never starts an image or imports its Python packages.
+
+CI logs contain `REGISTRY_REVIEW_INVENTORY`, `HISTORICAL_IMAGE_REVIEW` and per-digest
+secret-scan outcomes. Hosted code, private paths and deployment-value matches are
+reported by path/hash; observed package versions and legal-file locations are
+reported by layer. These observations are not a reconstructed final filesystem
+or a legal clearance. Secret matches print coordinates, never matched contents.
+Only the existing exact public-source vector classifications and reviewed public
+metadata exceptions apply. Unexpected findings fail the scan; ordinary historical
+content findings remain reports rather than new approval gates.
+
+The jobs upload no Actions archives, publish no review image and do not modify
+TEST. Package publication continues through the existing moving GHCR TEST workflow.
+Integration/e2e remains exclusively in nightly CI.
+
+## Coverage limits
+
+Tag enumeration is a point-in-time observation, not an atomic registry snapshot.
+A moved tag does not change the already recorded digest being reviewed. Untagged
+or deleted versions, non-amd64 platforms, hidden/deleted Git refs, remote LFS
+content and other registries are outside this inventory. Local package-version
+API access was denied for lack of read:packages; hosted CI uses repository-scoped
+read access rather than expanding that credential.
+
+An attempted read-only ACR inventory on 2026-11-14 could not authenticate with the
+available Azure session. No ACR image has been reviewed by this workflow. ACR
+coverage requires working read-only access and an inventory of the retained
+Oracles repositories; it must not be inferred from GHCR scan results.

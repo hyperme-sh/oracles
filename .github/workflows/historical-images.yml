@@ -1,0 +1,59 @@
+name: Historical image review
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/historical-images.yml'
+      - 'scripts/inventory_registry.py'
+      - 'scripts/review_image.py'
+      - 'scripts/check-older-image.sh'
+      - 'docs/historical-distributions/**'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/historical-images.yml'
+      - 'scripts/inventory_registry.py'
+      - 'scripts/review_image.py'
+      - 'scripts/check-older-image.sh'
+      - 'docs/historical-distributions/**'
+permissions:
+  contents: read
+  packages: read
+jobs:
+  inventory:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      matrix: ${{ steps.inventory.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - id: inventory
+        env:
+          REGISTRY_USER: ${{ github.actor }}
+          REGISTRY_TOKEN: ${{ github.token }}
+        run: python3 scripts/inventory_registry.py "$GITHUB_OUTPUT"
+  image:
+    needs: inventory
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix: ${{ fromJSON(needs.inventory.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    name: Review ${{ matrix.digest }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
+        with:
+          version: '0.11.26'
+          python-version: '3.13'
+      - name: Inspect every image layer without executing it
+        env:
+          DIGEST: ${{ matrix.digest }}
+          REGISTRY_USER: ${{ github.actor }}
+          REGISTRY_TOKEN: ${{ github.token }}
+        run: bash scripts/check-older-image.sh "$DIGEST"

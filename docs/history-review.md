@@ -23,3 +23,6 @@ Python signing fingerprint embedded in a scanner configuration. All file hashes
 were checked against reachable runtime or archived migration bytes. Exceptions
 are limited to those exact object/member IDs and exact hash/fingerprint values;
 no source path or credential category is excluded.
+
+[Historical distribution review](historical-distributions/README.md) now records
+member-level classifications and the read-only older-image review procedure.

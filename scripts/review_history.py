@@ -1,6 +1,7 @@
 """Inventory reachable source history without rewriting refs or printing contents."""
 import argparse
 import io
+import hashlib
 import json
 from pathlib import Path, PurePosixPath
 import subprocess
@@ -11,6 +12,26 @@ from distribution_audit import check_member
 
 def git(root, *args):
     return subprocess.check_output(['git', '-C', str(root), *args])
+
+
+def classify_findings(root, findings):
+    path = root / 'docs/historical-distributions/source-findings.json'
+    if not path.exists():
+        return {'reviewed': 0, 'unclassified': len(findings)}
+    records = json.loads(path.read_text())['findings']
+    known = {(r['object'], r.get('member')): r for r in records}
+    if len(known) != len(records):
+        raise ValueError('Duplicate historical classification')
+    count = 0
+    for finding in findings:
+        record = known.get((finding['object'], finding.get('member')))
+        if record:
+            if finding['sha256'] != record['sha256']:
+                raise ValueError('Historical classification bytes differ')
+            finding['classification'] = record['classification']
+            count += 1
+    return {'reviewed': count, 'unclassified': len(findings) - count,
+            'recorded_but_not_in_current_scope': len(known) - count}
 
 
 def review(root, scan_directory):
@@ -35,7 +56,7 @@ def review(root, scan_directory):
         try:
             check_member(name.removeprefix('src/'), data)
         except ValueError:
-            findings.append({'object': oid, 'path': name, 'kind': 'hosted-code'})
+            findings.append({'object': oid, 'path': name, 'kind': 'hosted-code', 'sha256': hashlib.sha256(data).hexdigest()})
         if kind == 'blob' and zipfile.is_zipfile(io.BytesIO(data)):
             with zipfile.ZipFile(io.BytesIO(data)) as archive:
                 members = archive.infolist()
@@ -52,9 +73,10 @@ def review(root, scan_directory):
                     try:
                         check_member(member.filename, content)
                     except ValueError:
-                        findings.append({'object': oid, 'path': name, 'member': member.filename, 'kind': 'hosted-code'})
+                        findings.append({'object': oid, 'path': name, 'member': member.filename, 'kind': 'hosted-code', 'sha256': hashlib.sha256(content).hexdigest()})
     return {'schema_version': 1, 'refs': refs, 'scanned_objects': scanned,
-            'history_findings': findings, 'source_publication_ready': False,
+            'history_findings': findings, 'classification_status': classify_findings(root, findings),
+            'source_publication_ready': False,
             'scope': 'HEAD plus fetched origin branches and tags; includes archived wheel members',
             'limitations': 'No unreachable/deleted refs, hidden server refs, remote LFS bytes or external archives; automated scans do not replace human review'}
 
