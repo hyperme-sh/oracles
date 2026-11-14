@@ -113,3 +113,37 @@ def test_public_file_classification_requires_exact_upstream_bytes_and_coordinate
     accepted, unexpected=classify_public_files([finding],tmp_path,records)
     assert accepted==(1 if change=='none' else 0)
     assert unexpected==([] if change=='none' else [finding])
+
+
+@pytest.mark.parametrize('change', ['none', 'bytes', 'path', 'line', 'rule'])
+def test_committed_archived_map_classification(tmp_path, monkeypatch, change):
+    from pathlib import Path
+    from types import SimpleNamespace
+    from classify_historical_findings import classify_public_files
+    records = json.loads((Path(__file__).resolve().parents[1] /
+                          '.github/workflows/historical-public-files.json').read_text())
+    relative = 'app/.venv/share/jupyter/nbextensions/pydeck/index.js.map'
+    row = next(item for item in records['files'] if item['path'] == relative)
+    expected = '1ef6c893f0577fdbe521570ecd9a94526cc982cdf46b6d85c9e5236d792811ba'
+    assert row['sha256'] == expected
+    assert row['rules'] == {'generic-api-key': [6]}
+    assert row['version'] == '0.9.3'
+    # Stub the 19 MB upstream member's digest, not configuration or matching.
+    # CI checks the actual retained image bytes against the committed hash.
+    sentinel = b'unit-only upstream member stand-in'
+    def digest(stream, algorithm):
+        assert algorithm == 'sha256'
+        data = stream.read()
+        value = expected if data == sentinel else hashlib.sha256(data).hexdigest()
+        return SimpleNamespace(hexdigest=lambda: value)
+    monkeypatch.setattr(hashlib, 'file_digest', digest)
+    path = tmp_path/'5'/relative
+    path.parent.mkdir(parents=True)
+    path.write_bytes(sentinel if change != 'bytes' else b'changed member')
+    finding = {'File': str(path), 'StartLine': 6, 'RuleID': 'generic-api-key'}
+    if change == 'path': finding['File'] = str(path.with_name('private.js.map'))
+    if change == 'line': finding['StartLine'] = 7
+    if change == 'rule': finding['RuleID'] = 'private-key'
+    accepted, unexpected = classify_public_files([finding], tmp_path, records)
+    assert accepted == (1 if change == 'none' else 0)
+    assert unexpected == ([] if change == 'none' else [finding])
