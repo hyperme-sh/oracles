@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Static image review only. Never starts a container or modifies a registry tag.
-set -euo pipefail
+set -Eeuo pipefail
+# Report only the line and status, never command text containing credentials.
+trap 'status=$?; printf "Static image review failed at line %s (status %s)\n" "$LINENO" "$status" >&2' ERR
 cd "$(dirname "$0")/.."
 digest=${1:?Digest required}
 [[ "$digest" =~ ^sha256:[0-9a-f]{64}$ ]]
@@ -33,7 +35,7 @@ else
 fi
 uv python install 3.13
 python=$(uv python find 3.13)
-"$python" scripts/review_image.py "$scratch/image.tar" "$scratch/layers" "$digest"
+"$python" -u scripts/review_image.py "$scratch/image.tar" "$scratch/layers" "$digest"
 version=8.30.1
 archive="gitleaks_${version}_linux_x64.tar.gz"
 curl --fail --silent --show-error --location "https://github.com/gitleaks/gitleaks/releases/download/v${version}/${archive}" -o "$scratch/$archive"
