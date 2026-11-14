@@ -71,3 +71,24 @@ ACR inventory and reviewed digest results are recorded in Infra #993. Untagged
 and deleted versions cannot be inferred from GHCR tags; they require their own
 registry inventory. The report must identify exactly which registry snapshot
 was compared with the completed digest scans.
+
+### Retained ACR image observed 2026-11-14
+
+The configured Infra subscription contains one retained `oracles` manifest,
+`sha256:e196877bf41709a0f9d757c275806bc1d986d623c233fff51836e7be0b79090e`,
+tagged `verification-test-f5e1e8d08d3cb013a46fddc8b08f50eeaf557cf2`.
+Hosted static review [43608261141](https://github.com/hyperme-sh/oracles/actions/runs/43608261141)
+inspected all six saved layers without starting the image. It reported 1,702
+hosted-code matches, 187 installed distribution metadata records, and no files
+under the standardized `/usr/share/doc/oracles-service` legal bundle path.
+The user configuration was `65532:65532`. These are layer observations, not
+permission to distribute the image or a claim that every dependency lacks legal
+texts. The hosted implementation remains retained and uncleared for public
+redistribution; no image or tag was changed.
+
+The two secret-scanner findings point to the Pydeck 0.9.3 source map
+at its older `app/.venv` installation path. The public-file classifier accepts
+that path only with the same exact upstream member hash, rule and line used for
+the current installation path. A changed member still fails classification.
+Download raw job logs when reviewing large JSON reports: the CLI's formatted
+run-log output omitted the large report and subsequent lines in this run.
