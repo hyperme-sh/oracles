@@ -18,8 +18,13 @@ Verbatim upstream texts and source/version/hash records live under
 `.github/workflows/third-party-notices`. These four locked wheel inventories
 match the previously reviewed product-template inputs. operator-ban-store's
 locked revision already includes its owner license and requires no supplement.
-These copied texts do not claim completion of LGPL/MPL corresponding-source,
-native build or replacement preparation; those remain separate follow-ups.
+The [source and replacement preparation](../licenses/SOURCES.md) supplies 18
+hash-bound archives and build records for the five declared LGPL/MPL packages.
+All five locked source/wheel inventories match the reviewed product-template
+inputs, including psycopg-binary 3.3.7. Final-image checks verify native bytes,
+SBOM and libxcrypt build provenance. CI-only replacement checks load a modified
+Python package and ABI-compatible native library without starting a service or
+using network access. No full bit-identical native rebuild is claimed.
 
 The locked source owners are controlplane-api, controlplane-core, controlplane-db,
 controlplane-events, controlplane-identity, controlplane-tenancy and user-service's

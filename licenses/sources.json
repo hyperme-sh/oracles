@@ -1,0 +1,295 @@
+{
+  "schema_version": 1,
+  "scope": "CPython 3.13 Linux x86_64 runtime; five declared LGPL/MPL distributions",
+  "publication_cleared": false,
+  "remaining": [
+    "Full native bit-for-bit rebuild not claimed",
+    "Repository history and separately authorized publication remain outside this preparation"
+  ],
+  "packages": [
+    {
+      "name": "certifi",
+      "version": "2026.10.23",
+      "sources": [
+        "certifi-2026.10.23.tar.gz"
+      ]
+    },
+    {
+      "name": "jwcrypto",
+      "version": "1.6.1",
+      "sources": [
+        "jwcrypto-1.6.1.tar.gz"
+      ]
+    },
+    {
+      "name": "orjson",
+      "version": "3.13.0",
+      "sources": [
+        "orjson-3.13.0.tar.gz"
+      ]
+    },
+    {
+      "name": "psycopg",
+      "version": "3.3.7",
+      "sources": [
+        "psycopg-3.3.7.tar.gz"
+      ]
+    },
+    {
+      "name": "psycopg-binary",
+      "version": "3.3.7",
+      "sources": [
+        "psycopg-upstream-3.3.7.tar.gz"
+      ],
+      "upstream_commit": "4daf632fae52ad7493c76fdea11d3a65856df114",
+      "build_recipe": "tools/ci/copy_to_binary.py; tools/ci/build_libpq.sh; .github/workflows/packages-bin.yml"
+    }
+  ],
+  "archives": [
+    {
+      "filename": "certifi-2026.10.23.tar.gz",
+      "url": "https://files.pythonhosted.org/packages/fd/11/b524cbd9bbdaca58608e4cf4053fd463417549e1959fa8d3aa18319f9555/certifi-2026.10.23.tar.gz",
+      "sha256": "a9895e6e2758b371e0545e321a3a8fd1fcfd9829ada8824a936dfb16aaaf36cd",
+      "size": 136225,
+      "basis": "exact PyPI source release"
+    },
+    {
+      "filename": "jwcrypto-1.6.1.tar.gz",
+      "url": "https://files.pythonhosted.org/packages/13/8f/e802d77957903483129813ce6fa01a72a906f9cdd454039d1ec1e6d1e44a/jwcrypto-1.6.1.tar.gz",
+      "sha256": "a1e1570da5c2e35dbcd375ec1d2891a24de8eb35ee2c1fe8e91978efb72cfe90",
+      "size": 116287,
+      "basis": "exact PyPI source release"
+    },
+    {
+      "filename": "orjson-3.13.0.tar.gz",
+      "url": "https://files.pythonhosted.org/packages/f2/72/380b97dc45bd162d23afe5194721ef678d9eac7cfaa549fe2873f7f0a518/orjson-3.13.0.tar.gz",
+      "sha256": "d1de5eb04485110c5da4c657e49168995d55e076b1ce60f1a042e254f4186c4f",
+      "size": 2732604,
+      "basis": "exact PyPI source release"
+    },
+    {
+      "filename": "psycopg-3.3.7.tar.gz",
+      "url": "https://files.pythonhosted.org/packages/77/a3/55c9fb649391fddec8d7ba3005162cd76e8cb3b2eea3dc922684aa0013e4/psycopg-3.3.7.tar.gz",
+      "sha256": "6574f23fd79bf129ee0616b49f6e358faf7ae1bf3a362d2ad599cf8f9c3d4935",
+      "size": 168912,
+      "basis": "exact PyPI source release"
+    },
+    {
+      "filename": "psycopg-upstream-3.3.7.tar.gz",
+      "url": "https://codeload.github.com/psycopg/psycopg/tar.gz/4daf632fae52ad7493c76fdea11d3a65856df114",
+      "sha256": "7e7e068823db5e033457004dac36056f478e8541e732799e4424cf679920dca6",
+      "size": 779126
+    },
+    {
+      "filename": "postgres-REL_18_6.tar.gz",
+      "url": "https://codeload.github.com/postgres/postgres/tar.gz/refs/tags/REL_18_6",
+      "sha256": "ff9b1187e3ab120282b9f3e09a5efba2425838b3a843150c5cb2f019f47ac400",
+      "size": 29996378
+    },
+    {
+      "filename": "openssl-openssl-3.5.8.tar.gz",
+      "url": "https://codeload.github.com/openssl/openssl/tar.gz/refs/tags/openssl-3.5.8",
+      "sha256": "59f86483992995df5a213df38d93f31eeafe3b34599309b3e088ba67ca0aad9c",
+      "size": 53396153
+    },
+    {
+      "filename": "openldap-2.6.14.tgz",
+      "url": "https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.6.14.tgz",
+      "sha256": "806dcd21d366428187fba3278da773d5930f774852c9e92517f950d585f19107",
+      "size": 6524817
+    },
+    {
+      "filename": "keyutils-1.5.8-3.el7.src.rpm",
+      "url": "https://vault.centos.org/7.9.2009/os/Source/SPackages/keyutils-1.5.8-3.el7.src.rpm",
+      "sha256": "eff16e16f707fd28436afe4cf7b7c2e34b9f827e7f6beacf3c6eecbf74e9f850",
+      "size": 77575
+    },
+    {
+      "filename": "cyrus-sasl-2.1.26-24.el7_9.src.rpm",
+      "url": "https://vault.centos.org/7.9.2009/updates/Source/SPackages/cyrus-sasl-2.1.26-24.el7_9.src.rpm",
+      "sha256": "c49472bd08c6060f53a9dace005b81cf466836790d2dcb407a536820f6319e77",
+      "size": 1782723
+    },
+    {
+      "filename": "krb5-1.15.1-55.el7_9.src.rpm",
+      "url": "https://vault.centos.org/7.9.2009/updates/Source/SPackages/krb5-1.15.1-55.el7_9.src.rpm",
+      "sha256": "d154824d46dff5aece0cdb8e4c9df299058bacadbaf7fb16be8d9163ca2814bb",
+      "size": 11554886
+    },
+    {
+      "filename": "e2fsprogs-1.42.9-19.el7.src.rpm",
+      "url": "https://vault.centos.org/7.9.2009/os/Source/SPackages/e2fsprogs-1.42.9-19.el7.src.rpm",
+      "sha256": "718f64bd465d1770eaf6490157a861d3dba2846b4a636a67d27bd4d38e6b86cf",
+      "size": 4765994
+    },
+    {
+      "filename": "libselinux-2.5-15.el7.src.rpm",
+      "url": "https://vault.centos.org/7.9.2009/os/Source/SPackages/libselinux-2.5-15.el7.src.rpm",
+      "sha256": "978ed00b9c7ca78a51e0aff48070c69ebe4fbfca0e64f618627ebdbe8786a089",
+      "size": 311489
+    },
+    {
+      "filename": "pcre-8.32-17.el7.src.rpm",
+      "url": "https://vault.centos.org/7.9.2009/os/Source/SPackages/pcre-8.32-17.el7.src.rpm",
+      "sha256": "b96493d8ea6def2e9a40dade4feedcea2b4bbfe8ce4c13a3465e99f21ef2c43d",
+      "size": 1428012
+    },
+    {
+      "filename": "libxcrypt-4.5.2.tar.xz",
+      "url": "https://github.com/besser82/libxcrypt/releases/download/v4.5.2/libxcrypt-4.5.2.tar.xz",
+      "sha256": "71513a31c01a428bccd5367a32fd95f115d6dac50fb5b60c779d5c7942aec071",
+      "size": 669820,
+      "basis": "preferred upstream source"
+    },
+    {
+      "filename": "manylinux-libxcrypt-build.tar.gz",
+      "url": "https://quay.io/v2/pypa/manylinux2014_x86_64/blobs/sha256:042041c92f06a4d0d9d1053ee1f1e0e1f9928c898bc358d9d8563bd6a2ee2868",
+      "sha256": "042041c92f06a4d0d9d1053ee1f1e0e1f9928c898bc358d9d8563bd6a2ee2868",
+      "size": 1122,
+      "basis": "exact image-layer build recipe"
+    },
+    {
+      "filename": "manylinux-build-utils.tar.gz",
+      "url": "https://quay.io/v2/pypa/manylinux2014_x86_64/blobs/sha256:5e510ca8d04c013ab529eaf910c44b730cdcd55fffd1072b12b72b720e03b374",
+      "sha256": "5e510ca8d04c013ab529eaf910c44b730cdcd55fffd1072b12b72b720e03b374",
+      "size": 3486,
+      "basis": "exact image-layer build helpers"
+    },
+    {
+      "filename": "manylinux-libxcrypt-binary.tar.gz",
+      "url": "https://quay.io/v2/pypa/manylinux2014_x86_64/blobs/sha256:201529546e37dfb96c5a78e140ed56dfb756bb3a6f837b980da9fbae26f748c8",
+      "sha256": "201529546e37dfb96c5a78e140ed56dfb756bb3a6f837b980da9fbae26f748c8",
+      "size": 382721,
+      "basis": "provenance comparison only; not source or a deployment image"
+    }
+  ],
+  "binary_wheel": {
+    "filename": "psycopg_binary-3.3.7-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl",
+    "sha256": "e3cc435fd83ff3fe627370bb8208bbcfd79631be2ac3b49b7a5c7edb528011c9",
+    "sbom_path": "psycopg_binary-3.3.7.dist-info/sboms/auditwheel.cdx.json",
+    "sbom_sha256": "9e51aff4e646f3acdfdd9b7d7346db8633c78e85a40027e2e0b94c518cb0bc73",
+    "members": [
+      {
+        "path": "psycopg_binary/_psycopg.cpython-313-x86_64-linux-gnu.so",
+        "sha256": "4fa2f80583b17254e5e0ce23d3f668ee03f114854dff08ed6a913d8781f240c6",
+        "source": "psycopg-upstream-3.3.7.tar.gz",
+        "status": "exact upstream release and binary-generation recipe"
+      },
+      {
+        "path": "psycopg_binary/pq.cpython-313-x86_64-linux-gnu.so",
+        "sha256": "48a3e839d5f1052a2c85a2b626b7e9faa35db7fc3e0dd49f2809a42606e10c2d",
+        "source": "psycopg-upstream-3.3.7.tar.gz",
+        "status": "exact upstream release and binary-generation recipe"
+      },
+      {
+        "path": "psycopg_binary.libs/libcom_err-2abe824b.so.2.1",
+        "sha256": "5647a298606198aea460805eaef1bab336d6da8e6517f111803a7925836e73a5",
+        "source": "e2fsprogs-1.42.9-19.el7.src.rpm",
+        "status": "upstream recipe or wheel SBOM version matched"
+      },
+      {
+        "path": "psycopg_binary.libs/libcrypt-79a134a6.so.1",
+        "sha256": "81aec072a5bddbf665505a07768657e9f9e7ffe500f944b0257c5119481b6627",
+        "source": "libxcrypt-4.5.2.tar.xz",
+        "status": "upstream wheel-build image, source hash and unchanged ELF code/read-only sections matched"
+      },
+      {
+        "path": "psycopg_binary.libs/libcrypto-78bce4ac.so.3",
+        "sha256": "9dfb12711ca1bbce5c81a60b344d0bb127d1645eea9950c63f457c89989ee11d",
+        "source": "openssl-openssl-3.5.8.tar.gz",
+        "status": "upstream recipe or wheel SBOM version matched"
+      },
+      {
+        "path": "psycopg_binary.libs/libgssapi_krb5-497db0c6.so.2.2",
+        "sha256": "9f8e12940bf9c11ae333868da3677e56cf29c86c2acc74e884af0f98a2df8bf6",
+        "source": "krb5-1.15.1-55.el7_9.src.rpm",
+        "status": "upstream recipe or wheel SBOM version matched"
+      },
+      {
+        "path": "psycopg_binary.libs/libk5crypto-b1f99d5c.so.3.1",
+        "sha256": "e57f647a6143ef9c47d0c786e28ea92ee769af71e693b131a2cbb8e2b1bcb667",
+        "source": "krb5-1.15.1-55.el7_9.src.rpm",
+        "status": "upstream recipe or wheel SBOM version matched"
+      },
+      {
+        "path": "psycopg_binary.libs/libkeyutils-dfe70bd6.so.1.5",
+        "sha256": "7285c12bb8b6e380a3724c87f81e60de241fd5908117633111b72791d34b6550",
+        "source": "keyutils-1.5.8-3.el7.src.rpm",
+        "status": "upstream recipe or wheel SBOM version matched"
+      },
+      {
+        "path": "psycopg_binary.libs/libkrb5-fcafa220.so.3.3",
+        "sha256": "237bb9daa2b67f757b2896b678bec742121398b10c2d3a3675746fb7aafffcbc",
+        "source": "krb5-1.15.1-55.el7_9.src.rpm",
+        "status": "upstream recipe or wheel SBOM version matched"
+      },
+      {
+        "path": "psycopg_binary.libs/libkrb5support-d0bcff84.so.0.1",
+        "sha256": "2c08b091b64ee192c3305a70603fb78117d0d047b2e922fb32c85908cf6f2cdf",
+        "source": "krb5-1.15.1-55.el7_9.src.rpm",
+        "status": "upstream recipe or wheel SBOM version matched"
+      },
+      {
+        "path": "psycopg_binary.libs/liblber-8a98bd9d.so.2.0.200",
+        "sha256": "1411fee3ba9492b3b41c0e8ceb2054b0d497f8d661ea84c3ffd6e15a342167b3",
+        "source": "openldap-2.6.14.tgz",
+        "status": "upstream recipe or wheel SBOM version matched"
+      },
+      {
+        "path": "psycopg_binary.libs/libldap-3a44b739.so.2.0.200",
+        "sha256": "1be2deb35c4da76d366f08ecb31a62b3f1abe753b471402b95d30fce7791431b",
+        "source": "openldap-2.6.14.tgz",
+        "status": "upstream recipe or wheel SBOM version matched"
+      },
+      {
+        "path": "psycopg_binary.libs/libpcre-9513aab5.so.1.2.0",
+        "sha256": "9a47fd81ee956f1c1298ae9762ac04f76dc0da43d239e5ed506965cf3d8ed08d",
+        "source": "pcre-8.32-17.el7.src.rpm",
+        "status": "upstream recipe or wheel SBOM version matched"
+      },
+      {
+        "path": "psycopg_binary.libs/libpq-e9b5c9ac.so.5.18",
+        "sha256": "c85a85063c232f9375e030e132da7979497a909128e16fc23e04e197e96c5b78",
+        "source": "postgres-REL_18_6.tar.gz",
+        "status": "upstream recipe or wheel SBOM version matched"
+      },
+      {
+        "path": "psycopg_binary.libs/libsasl2-84219a89.so.3.0.0",
+        "sha256": "62cae19b3e55389211a5f6f54aaff9d55fcd4b77183ccb7b3d8cf0e24b1f146f",
+        "source": "cyrus-sasl-2.1.26-24.el7_9.src.rpm",
+        "status": "upstream recipe or wheel SBOM version matched"
+      },
+      {
+        "path": "psycopg_binary.libs/libselinux-0922c95c.so.1",
+        "sha256": "76e70ae08af8a7e2af3dd7481959c3a87a24a73d59cf6e45469b424cdd178035",
+        "source": "libselinux-2.5-15.el7.src.rpm",
+        "status": "upstream recipe or wheel SBOM version matched"
+      },
+      {
+        "path": "psycopg_binary.libs/libssl-8bd944e8.so.3",
+        "sha256": "f4ec74c1e62117173d2ff8d2c3b83fda18b5a1fc04fe4612a31e712e18bcc6f5",
+        "source": "openssl-openssl-3.5.8.tar.gz",
+        "status": "upstream recipe or wheel SBOM version matched"
+      }
+    ]
+  },
+  "libcrypt_provenance": {
+    "upstream_run": "https://github.com/psycopg/psycopg/actions/runs/41555996720",
+    "upstream_job": "https://github.com/psycopg/psycopg/actions/runs/41555996720/job/125655435509",
+    "build_log_sha256": "af8c877ba6a448052011200093ee9069fe37fa4dec8f3a714ef1785a69efabd4",
+    "image_manifest": "manylinux-manifest.json",
+    "image_manifest_sha256": "296069bc05d85275248f168f6e3b34ba8aa06181b67e40cd7447c64d56d3a851",
+    "image_config": "manylinux-config.json",
+    "image_config_sha256": "dd4611c5c04638c4b308cdfee9c7e4d3800921d7ad9c1fe1b4c818a2094061a3",
+    "version": "4.5.2",
+    "source_archive": "libxcrypt-4.5.2.tar.xz",
+    "original_layer": "manylinux-libxcrypt-binary.tar.gz",
+    "original_member": "usr/local/lib/libcrypt.so.1",
+    "original_sha256": "79a134a6fc4abf60f89e543bb5808d7b8f4183c24173312cb7974862bd4ee2fd",
+    "wheel_member": "psycopg_binary.libs/libcrypt-79a134a6.so.1",
+    "sections": {
+      ".text": "0032947bb1b4db29f3935a84483050adcb68c91c0bf84f410c2aeeabd5ed0b18",
+      ".rodata": "66106837ae02371f2baf8679c7d5ede039bf3fdbda5b2e88f238d0d382e360ae"
+    }
+  }
+}

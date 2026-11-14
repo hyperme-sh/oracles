@@ -40,6 +40,8 @@ All seven locked Git dependency owners are public. The image build verifies that
 the exact revisions can be fetched anonymously. The existing dependency-token
 configuration is retired only after this anonymous path passes CI.
 
+The image includes [LGPL/MPL sources and replacement instructions](licenses/SOURCES.md).
+
 See [preparation status](docs/public-preparation.md). Repository/image visibility
 and remaining third-party notice follow-ups remain with [Infra #993](https://github.com/FyberLabs/infra/issues/993).
 
