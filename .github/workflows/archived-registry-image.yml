@@ -1,0 +1,41 @@
+name: Archived registry image review
+on:
+  workflow_dispatch:
+    inputs:
+      digest:
+        description: Observed immutable manifest digest to inspect without executing
+        type: string
+        required: true
+permissions:
+  contents: read
+concurrency:
+  group: oracles-archived-registry-review
+  cancel-in-progress: false
+jobs:
+  image:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ${{ github.event.repository.private && fromJSON('["self-hosted", "linux", "x64", "debrunner"]') || 'ubuntu-24.04' }}
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2
+        with:
+          version: '0.11.26'
+          python-version: '3.13'
+      - name: Install static registry copy tool
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends skopeo
+      - name: Inspect observed archived image without starting it
+        env:
+          DIGEST: ${{ inputs.digest }}
+          HISTORICAL_REGISTRY: ${{ secrets.HISTORICAL_REVIEW_REGISTRY }}
+          HISTORICAL_REPOSITORY: oracles
+          REGISTRY_USER: 00000000-0000-0000-0000-000000000000
+          REGISTRY_TOKEN: ${{ secrets.HISTORICAL_REVIEW_PULL_TOKEN }}
+        run: |
+          test -n "$HISTORICAL_REGISTRY"
+          test -n "$REGISTRY_TOKEN"
+          bash scripts/check-older-image.sh "$DIGEST"
