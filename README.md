@@ -40,7 +40,7 @@ the exact revisions can be fetched anonymously. The existing dependency-token
 configuration is retired only after this anonymous path passes CI.
 
 See [preparation status](docs/public-preparation.md). Repository/image visibility
-and any missing notice decision remain with [Infra #993](https://github.com/FyberLabs/infra/issues/993).
+and remaining third-party notice follow-ups remain with [Infra #993](https://github.com/FyberLabs/infra/issues/993).
 
 ## Relay safety contract
 

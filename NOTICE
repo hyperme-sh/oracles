@@ -1,0 +1,9 @@
+Oracles service
+Copyright 2026 Fyber Labs
+
+Licensed under the Apache License, Version 2.0. See LICENSE.
+
+Controlplane dependencies and other third-party software retain their own terms
+and are not relicensed by this file. Installed Python distribution metadata
+retains the notices supplied by those distributions. Python and Debian
+base-image notices remain at their original system locations.
