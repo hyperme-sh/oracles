@@ -97,13 +97,13 @@ def source_audit(root):
             'publication_authorized':False}
 
 
-def unpack_image(archive, destination):
+def unpack_image(archive, destination, *, require_unprivileged=True):
     # Inspect every final-image layer, including deleted lower-layer files.
     with tarfile.open(archive) as outer:
         manifest=json.load(outer.extractfile('manifest.json'))
         if len(manifest)!=1:raise ValueError('Expected one saved image')
         config=json.load(outer.extractfile(manifest[0]['Config']))
-        if config.get('config',{}).get('User')!='65532:65532':raise ValueError('Runtime must be unprivileged')
+        if require_unprivileged and config.get('config',{}).get('User')!='65532:65532':raise ValueError('Runtime must be unprivileged')
         for i,name in enumerate(manifest[0]['Layers']):
             target=destination/str(i);target.mkdir(parents=True)
             with tarfile.open(fileobj=outer.extractfile(name)) as layer:
@@ -115,7 +115,7 @@ def unpack_image(archive, destination):
                     if member.isfile() or member.isdir():members.append(member)
                 layer.extractall(target,members=members,filter='data')
         (destination/"image-config.json").write_text(json.dumps(config,indent=2))
-        return {"layers":len(manifest[0]["Layers"]),"user":config["config"]["User"]}
+        return {"layers":len(manifest[0]["Layers"]),"user":config.get("config",{}).get("User", "")}
 
 
 def normalize_scan_names(root):
