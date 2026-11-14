@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - '.github/workflows/historical-images.yml'
+      - '.github/workflows/historical-source-findings.json'
       - 'scripts/inventory_registry.py'
       - 'scripts/review_image.py'
       - 'scripts/check-older-image.sh'
@@ -11,6 +12,7 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/historical-images.yml'
+      - '.github/workflows/historical-source-findings.json'
       - 'scripts/inventory_registry.py'
       - 'scripts/review_image.py'
       - 'scripts/check-older-image.sh'

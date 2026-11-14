@@ -65,9 +65,9 @@ def test_historical_layer_reports_hosted_code_and_metadata_without_execution(tmp
 
 def test_historical_classification_is_bound_to_member_bytes(tmp_path):
     import review_history
-    directory = tmp_path/'docs/historical-distributions'; directory.mkdir(parents=True)
+    directory = tmp_path/'.github/workflows'; directory.mkdir(parents=True)
     row = {'object':'object', 'member':'module.py', 'sha256':'a'*64, 'classification':'provider-adapter'}
-    (directory/'source-findings.json').write_text(json.dumps({'findings':[row]}))
+    (directory/'historical-source-findings.json').write_text(json.dumps({'findings':[row]}))
     finding = dict(row); del finding['classification']
     assert review_history.classify_findings(tmp_path, [finding])['reviewed'] == 1
     assert finding['classification'] == 'provider-adapter'

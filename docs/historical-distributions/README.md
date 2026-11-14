@@ -6,7 +6,7 @@ No running TEST channel is pinned or moved by the review.
 
 ## Source findings
 
-[source-findings.json](source-findings.json) classifies the 162 matches in 12
+[Source classification records](../../.github/workflows/historical-source-findings.json) classifies the 162 matches in 12
 historical wheel blobs reported by the earlier reachable-history review. Each
 entry identifies the Git object, member and SHA-256; no source contents or
 credential values are copied into the report. The non-shallow history check

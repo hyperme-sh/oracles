@@ -15,7 +15,7 @@ def git(root, *args):
 
 
 def classify_findings(root, findings):
-    path = root / 'docs/historical-distributions/source-findings.json'
+    path = root / '.github/workflows/historical-source-findings.json'
     if not path.exists():
         return {'reviewed': 0, 'unclassified': len(findings)}
     records = json.loads(path.read_text())['findings']
