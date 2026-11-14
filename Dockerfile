@@ -1,11 +1,14 @@
 FROM python:3.13-bookworm@sha256:cc55e4ded9c95f6ce2133b3d096db43f214d280c2a8af65d83e246c8fa7d168c AS install
 COPY requirements.txt *.whl /candidate/
 RUN python -m venv /opt/runtime && /opt/runtime/bin/pip install --no-cache-dir -r /candidate/requirements.txt && /opt/runtime/bin/pip install --no-deps /candidate/*.whl && /opt/runtime/bin/pip check
+# Copy the owner texts from the installed, qualified distribution.
+RUN /opt/runtime/bin/python -c "from importlib.metadata import distribution; from pathlib import Path; import shutil; d=distribution('oracles-service'); out=Path('/owner-notices'); out.mkdir(); [(shutil.copyfile(d.locate_file(next(p for p in d.files if str(p).endswith('.dist-info/licenses/'+name))), out/name)) for name in ('LICENSE', 'NOTICE')]"
 # API runtime does not serve notebook browser extensions.
 RUN rm -rf /opt/runtime/share/jupyter
 
 FROM python:3.13-slim-bookworm@sha256:a5a7017efc5969e00ae2b91c8eb0631049a569652aa4ffc4501769049ae45c72
 COPY --from=install /opt/runtime /opt/runtime
+COPY --from=install /owner-notices /usr/share/doc/oracles-service
 LABEL org.opencontainers.image.source="https://github.com/hyperme-sh/oracles"
 ENV PATH=/opt/runtime/bin:$PATH
 USER 65532:65532

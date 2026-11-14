@@ -12,6 +12,10 @@ if resource.exists():
 wheel, = Path(sys.argv[1]).glob('*.whl')
 with zipfile.ZipFile(wheel) as archive:
     names = archive.namelist()
+    for filename in ('LICENSE', 'NOTICE'):
+        matches = [name for name in names if name.endswith('.dist-info/licenses/' + filename)]
+        assert len(matches) == 1, f'Wheel legal file missing or duplicated: {filename}'
+        assert archive.read(matches[0]) == (root / filename).read_bytes(), f'Wheel legal bytes differ: {filename}'
     runtime = {name for name in names if '.dist-info/' not in name}
     assert len(names) == len(set(names)) and runtime == set(expected), 'Wheel inventory differs'
     for name, data in expected.items():

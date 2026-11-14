@@ -47,6 +47,7 @@ scan "$scratch/layers"
 # Static metadata only: no server, database, credentials or external requests.
 docker run --rm --network none --read-only --cap-drop ALL --security-opt no-new-privileges \
   --mount "type=bind,src=$PWD/scripts/distribution_audit.py,dst=/audit.py,readonly" \
+  --mount "type=bind,src=$scratch/source,dst=/owner-source,readonly" \
   --mount "type=bind,src=$scratch/source/src,dst=/audit-source,readonly" \
-  --entrypoint /opt/runtime/bin/python "$image" /audit.py installed /audit-source
+  --entrypoint /opt/runtime/bin/python "$image" /audit.py installed /audit-source --owner-source /owner-source
 printf 'Source and container checks passed for %s. Publication remains separately authorized.\n' "$(git rev-parse HEAD)"

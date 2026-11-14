@@ -2,8 +2,9 @@
 
 Oracles #30 prepares source and the service image. It does not publish a repository
 or change the existing Apache-2.0 license. LICENSE is retained in source and in the
-installed distribution. A root NOTICE file is absent; any required owner notice
-text must be settled under Infra #993 before public redistribution. Installed
+installed distribution. The root NOTICE identifies the owner and preserves
+third-party terms. Both texts are checked byte-for-byte in the wheel, rebuilt
+source archive wheel and final image at `/usr/share/doc/oracles-service`. Installed
 third-party license declarations and notice paths are reported by CI, including
 missing metadata that needs review. Base-image copyright files remain installed.
 

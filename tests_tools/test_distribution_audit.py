@@ -77,3 +77,22 @@ def test_runtime_image_bytes_must_match_committed_source(tmp_path,monkeypatch):
     audit.verify_runtime_source(source)
     (installed/'app.py').write_text('x=2')
     with pytest.raises(ValueError,match='differs'):audit.verify_runtime_source(source)
+
+
+@pytest.mark.parametrize('failure', ['missing', 'changed', 'empty'])
+def test_owner_notices_reject_missing_changed_or_empty_text(tmp_path, failure):
+    source = tmp_path / 'source'; source.mkdir()
+    installed = tmp_path / 'installed'; installed.mkdir()
+    for name in ('LICENSE', 'NOTICE'):
+        (source / name).write_text(name)
+        (installed / name).write_text(name)
+    audit.verify_owner_notices(source, installed)
+    if failure == 'missing':
+        (installed / 'NOTICE').unlink()
+    elif failure == 'changed':
+        (installed / 'NOTICE').write_text('changed')
+    else:
+        (source / 'NOTICE').write_text('')
+        (installed / 'NOTICE').write_text('')
+    with pytest.raises((ValueError, FileNotFoundError)):
+        audit.verify_owner_notices(source, installed)

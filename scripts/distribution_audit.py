@@ -124,6 +124,13 @@ def verify_runtime_source(source):
     if not expected or files(installed)!=expected:raise ValueError('Image runtime differs from committed source')
 
 
+def verify_owner_notices(source, installed=Path('/usr/share/doc/oracles-service')):
+    for name in ('LICENSE', 'NOTICE'):
+        expected = (source / name).read_bytes()
+        if not expected.strip() or (installed / name).read_bytes() != expected:
+            raise ValueError('Image owner legal text differs: ' + name)
+
+
 def installed_inventory():
     rows=[]
     for dist in importlib.metadata.distributions():
@@ -139,7 +146,7 @@ def installed_inventory():
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('mode',choices=['source','image','installed'])
-    parser.add_argument('path',nargs='?');parser.add_argument('--output');args=parser.parse_args()
+    parser.add_argument('--owner-source');parser.add_argument('path',nargs='?');parser.add_argument('--output');args=parser.parse_args()
     if args.mode=='source':result=source_audit(Path(args.path))
     elif args.mode=='image':
         root=Path(args.output);result=unpack_image(args.path,root)
@@ -147,5 +154,6 @@ if __name__=='__main__':
         normalize_scan_names(root)
     else:
         if args.path:verify_runtime_source(Path(args.path))
+        if args.owner_source:verify_owner_notices(Path(args.owner_source))
         result=installed_inventory()
     print(json.dumps(result,sort_keys=True,indent=2))

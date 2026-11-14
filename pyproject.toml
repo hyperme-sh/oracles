@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "oracles-service"
 version = "0.1.0"
 license = "Apache-2.0"
-license-files = ["LICENSE"]
+license-files = ["LICENSE", "NOTICE"]
 requires-python = ">=3.13"
 description = "Oracles/validators control plane: public attestation / relay check (v0 shape)"
 dependencies = [
@@ -31,7 +31,7 @@ dev = [
 packages = ["src/oracles_service"]
 
 [tool.hatch.build.targets.sdist]
-include = ["/releases/prepared", "/releases/qualification", "/tests_artifacts", "/tests_tools", "/src", "/tests", "/scripts", "/edge-routes.json", "/pyproject.toml", "/uv.lock", "/README.md"]
+include = ["/LICENSE", "/NOTICE", "/releases/prepared", "/releases/qualification", "/tests_artifacts", "/tests_tools", "/src", "/tests", "/scripts", "/edge-routes.json", "/pyproject.toml", "/uv.lock", "/README.md"]
 
 [tool.hatch.metadata]
 allow-direct-references = true
