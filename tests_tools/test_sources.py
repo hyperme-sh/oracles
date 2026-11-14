@@ -194,3 +194,26 @@ def test_rejected_redirect_diagnostic_omits_query_secrets():
             request, None, 302, 'Found', {}, 'https://unreviewed.invalid/blob?signature=synthetic-secret')
     assert 'unreviewed.invalid' in str(error.value)
     assert 'synthetic-secret' not in str(error.value)
+
+
+@pytest.mark.parametrize('bucket', ['quayio-production-s3', 'quay-registry'])
+def test_quay_storage_redirects_are_bucket_scoped(bucket):
+    for target in (f'https://s3.us-east-1.amazonaws.com/{bucket}/blob?signature=test',
+                   f'https://{bucket}.s3.amazonaws.com/blob?signature=test'):
+        assert sources.allowed_url(target, redirect=True)
+        assert not sources.allowed_url(target)
+
+
+@pytest.mark.parametrize('target', [
+    'https://s3.us-east-1.amazonaws.com/other/blob?signature=test',
+    'https://s3.us-east-1.amazonaws.com/quay-registry-other/blob',
+    'https://s3.us-east-1.amazonaws.com/quay-registry/../other/blob',
+    'https://s3.us-east-1.amazonaws.com/quay-registry/%2e%2e/other/blob',
+    'https://s3.us-east-1.amazonaws.com/quay-registry',
+    'https://other.s3.amazonaws.com/blob',
+    'https://quay-registry.s3.amazonaws.com.invalid/blob',
+    'http://s3.us-east-1.amazonaws.com/quay-registry/blob',
+    'https://s3.us-east-1.amazonaws.com:444/quay-registry/blob',
+])
+def test_unreviewed_storage_targets_remain_rejected(target):
+    assert not sources.allowed_url(target, redirect=True)

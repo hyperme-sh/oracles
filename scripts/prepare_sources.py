@@ -19,15 +19,26 @@ REDIRECT_HOSTS = {'release-assets.githubusercontent.com', 'cdn.quay.io',
 
 def allowed_url(url, redirect=False):
     parsed = urllib.parse.urlsplit(url)
-    return (parsed.scheme == 'https' and (parsed.hostname in HOSTS or (redirect and parsed.hostname in REDIRECT_HOSTS))
+    # Quay also redirects blobs to its documented storage buckets. Do not allow
+    # arbitrary buckets merely because they share an Amazon endpoint.
+    buckets = {'quayio-production-s3', 'quay-registry'}
+    path = urllib.parse.unquote(parsed.path)
+    parts = path.split('/')
+    storage = (parsed.hostname == 's3.us-east-1.amazonaws.com'
+               and len(parts) > 2 and parts[1] in buckets
+               and all(part not in ('.', '..') for part in parts))
+    storage = storage or parsed.hostname in {bucket + '.s3.amazonaws.com' for bucket in buckets}
+    reviewed_redirect = redirect and (parsed.hostname in REDIRECT_HOSTS or storage)
+    return (parsed.scheme == 'https' and (parsed.hostname in HOSTS or reviewed_redirect)
             and parsed.port in (None, 443) and not parsed.username and not parsed.password
-            and (not parsed.query or (redirect and parsed.hostname in REDIRECT_HOSTS)) and not parsed.fragment)
+            and (not parsed.query or reviewed_redirect) and not parsed.fragment)
 
 
 class ReviewedRedirects(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, request, response, code, message, headers, newurl):
         if not allowed_url(newurl, redirect=True):
-            raise ValueError('Source redirect escaped reviewed HTTPS hosts: ' + str(urllib.parse.urlsplit(newurl).hostname))
+            target = urllib.parse.urlsplit(newurl)
+            raise ValueError('Source redirect escaped reviewed HTTPS hosts: ' + str(target.hostname) + target.path)
         return super().redirect_request(request, response, code, message, headers, newurl)
 
 
@@ -73,7 +84,11 @@ def fetch(manifest_path, output):
     opener = urllib.request.build_opener(ReviewedRedirects())
     for row in manifest['archives']:
         target = output / row['filename']
-        with opener.open(row['url'], timeout=60) as response, target.open('xb') as stream:
+        try:
+            response = opener.open(row['url'], timeout=60)
+        except ValueError as error:
+            raise ValueError('Source download rejected for ' + row['filename'] + ': ' + str(error)) from error
+        with response, target.open('xb') as stream:
             if not allowed_url(response.url, redirect=True):
                 raise ValueError('Source redirect escaped reviewed hosts')
             count = 0
