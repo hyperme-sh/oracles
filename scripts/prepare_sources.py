@@ -11,7 +11,10 @@ import urllib.parse
 import urllib.request
 
 HOSTS = {'files.pythonhosted.org', 'codeload.github.com', 'vault.centos.org', 'www.openldap.org', 'github.com', 'quay.io'}
-REDIRECT_HOSTS = {'release-assets.githubusercontent.com', 'cdn01.quay.io'}
+# Exact CDN names documented at https://access.redhat.com/articles/7084334
+REDIRECT_HOSTS = {'release-assets.githubusercontent.com', 'cdn.quay.io',
+                  'cdn01.quay.io', 'cdn02.quay.io', 'cdn03.quay.io',
+                  'cdn04.quay.io', 'cdn05.quay.io', 'cdn06.quay.io'}
 
 
 def allowed_url(url, redirect=False):
@@ -24,7 +27,7 @@ def allowed_url(url, redirect=False):
 class ReviewedRedirects(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, request, response, code, message, headers, newurl):
         if not allowed_url(newurl, redirect=True):
-            raise ValueError('Source redirect escaped reviewed HTTPS hosts')
+            raise ValueError('Source redirect escaped reviewed HTTPS hosts: ' + str(urllib.parse.urlsplit(newurl).hostname))
         return super().redirect_request(request, response, code, message, headers, newurl)
 
 

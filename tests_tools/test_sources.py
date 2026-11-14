@@ -174,3 +174,23 @@ def test_reviewed_sources_and_native_wheel_match_oracles_lock():
               if row['url'].endswith('/' + wheel['filename']))
     assert match['hash'] == 'sha256:' + wheel['sha256']
     assert all(row['source'] is not None for row in wheel['members'])
+
+
+@pytest.mark.parametrize('host', ['cdn.quay.io', 'cdn01.quay.io', 'cdn02.quay.io',
+                                  'cdn03.quay.io', 'cdn04.quay.io', 'cdn05.quay.io', 'cdn06.quay.io'])
+def test_documented_quay_cdns_allow_signed_redirect_only(host):
+    target = f'https://{host}/blob?signature=synthetic-test'
+    assert sources.allowed_url(target, redirect=True)
+    assert not sources.allowed_url(target)
+    for bad in (f'https://{host}.invalid/blob', f'http://{host}/blob',
+                f'https://{host}:444/blob', 'https://cdn07.quay.io/blob'):
+        assert not sources.allowed_url(bad, redirect=True)
+
+
+def test_rejected_redirect_diagnostic_omits_query_secrets():
+    request = sources.urllib.request.Request('https://quay.io/blob')
+    with pytest.raises(ValueError) as error:
+        sources.ReviewedRedirects().redirect_request(
+            request, None, 302, 'Found', {}, 'https://unreviewed.invalid/blob?signature=synthetic-secret')
+    assert 'unreviewed.invalid' in str(error.value)
+    assert 'synthetic-secret' not in str(error.value)
