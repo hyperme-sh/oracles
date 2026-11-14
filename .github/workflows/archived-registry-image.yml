@@ -24,6 +24,10 @@ jobs:
         with:
           version: '0.11.26'
           python-version: '3.13'
+      - name: Install static registry copy tool
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends skopeo
       - name: Inspect observed archived image without starting it
         env:
           DIGEST: ${{ inputs.digest }}
