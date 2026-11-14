@@ -37,6 +37,9 @@ jobs:
           source="oracles-ci:$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
           cp scripts/prepare_notices.py "$RELEASE_ARTIFACT_DIR/"
           cp -R .github/workflows/third-party-notices "$RELEASE_ARTIFACT_DIR/"
+          cp scripts/prepare_sources.py "$RELEASE_ARTIFACT_DIR/"
+          "$(uv python find 3.13)" scripts/prepare_sources.py fetch licenses/sources.json --output "$RELEASE_ARTIFACT_DIR/sources"
+          cp -R .github/workflows/source-provenance "$RELEASE_ARTIFACT_DIR/sources/provenance"
           docker build -f Dockerfile --label "org.opencontainers.image.revision=$GITHUB_SHA" -t "$source" "$RELEASE_ARTIFACT_DIR"
           docker run --rm --network none --read-only --cap-drop ALL --entrypoint python "$source" -Ic 'from oracles_service.app import app; assert "/api/v1/oracles/v0/attest" in app.openapi()["paths"]'
       - name: Audit the exact runtime before TEST publication
