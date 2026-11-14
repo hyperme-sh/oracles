@@ -38,8 +38,11 @@ secret-scan outcomes. Hosted code, private paths and deployment-value matches ar
 reported by path/hash; observed package versions and legal-file locations are
 reported by layer. These observations are not a reconstructed final filesystem
 or a legal clearance. Secret matches print coordinates, never matched contents.
-Only the existing exact public-source vector classifications and reviewed public
-metadata exceptions apply. Unexpected findings fail the scan; ordinary historical
+The old Pydeck 0.9.3 notebook source map has two scanner matches that are public
+loaders.gl class/function identifiers. The exact PyPI wheel and member hashes
+are recorded with the rule and line; only unchanged source-map bytes at the
+recorded location are classified as public. Other source vectors and public
+metadata retain the existing narrow checks. Unexpected findings fail the scan; ordinary historical
 content findings remain reports rather than new approval gates.
 
 The jobs upload no Actions archives, publish no review image and do not modify

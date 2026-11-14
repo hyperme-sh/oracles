@@ -96,3 +96,20 @@ def test_historical_root_user_is_reported_but_current_image_policy_stays_strict(
     with pytest.raises(ValueError, match='unprivileged'):
         audit.unpack_image(archive, tmp_path/'strict')
     assert audit.unpack_image(archive, tmp_path/'historical', require_unprivileged=False)['user']=='root'
+
+
+@pytest.mark.parametrize('change', ['none', 'bytes', 'path', 'line', 'rule'])
+def test_public_file_classification_requires_exact_upstream_bytes_and_coordinates(tmp_path, change):
+    from classify_historical_findings import classify_public_files
+    path = tmp_path/'1/opt/runtime/share/map.js';path.parent.mkdir(parents=True)
+    path.write_bytes(b'public source map')
+    records={'files':[{'path':'opt/runtime/share/map.js','sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
+                      'rules':{'generic-api-key':[6]}}]}
+    finding={'File':str(path),'StartLine':6,'RuleID':'generic-api-key'}
+    if change=='bytes':path.write_bytes(b'changed')
+    if change=='path':finding['File']=str(tmp_path/'1/opt/runtime/private.txt')
+    if change=='line':finding['StartLine']=7
+    if change=='rule':finding['RuleID']='private-key'
+    accepted, unexpected=classify_public_files([finding],tmp_path,records)
+    assert accepted==(1 if change=='none' else 0)
+    assert unexpected==([] if change=='none' else [finding])

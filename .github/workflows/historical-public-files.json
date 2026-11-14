@@ -1,0 +1,23 @@
+{
+  "files": [
+    {
+      "path": "opt/runtime/share/jupyter/nbextensions/pydeck/index.js.map",
+      "sha256": "1ef6c893f0577fdbe521570ecd9a94526cc982cdf46b6d85c9e5236d792811ba",
+      "rules": {
+        "generic-api-key": [
+          6
+        ]
+      },
+      "distribution": "pydeck",
+      "version": "0.9.3",
+      "wheel_url": "https://files.pythonhosted.org/packages/6f/34/3998411437aff304a9ed4fa37a6fe1ef3132bcd2b5eac59851b80c86123c/pydeck-0.9.3-py2.py3-none-any.whl",
+      "wheel_sha256": "d8a47c11c81fb12d51b1feb42427ff4f0e13cb599e48931021b2cba98b6849a6",
+      "member": "pydeck-0.9.3.data/data/share/jupyter/nbextensions/pydeck/index.js.map",
+      "reason": "Two public loaders.gl class/function identifiers in the pristine upstream source map, not credential values",
+      "finding_value_sha256": [
+        "23e68758dfafec776a74d43704a2799aea2ebba6e31b28bb4b8f86e26a463e3e",
+        "e7429c54e367edae10d93d693f51ce18c4337c9e5eecf12dec8f33e4c9c7a925"
+      ]
+    }
+  ]
+}
