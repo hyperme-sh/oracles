@@ -45,14 +45,12 @@ if [[ "$owned_image" == 1 ]]; then
     uv export --frozen --no-dev --no-emit-project --no-hashes --format requirements-txt --output-file "$scratch/dist/requirements.txt")
   cp "$scratch/source/scripts/prepare_notices.py" "$scratch/dist/"
   cp -R "$scratch/source/.github/workflows/third-party-notices" "$scratch/dist/"
-  cp "$scratch/source/scripts/prepare_sources.py" "$scratch/dist/"
-  "$python" "$scratch/source/scripts/prepare_sources.py" fetch "$scratch/source/licenses/sources.json" --output "$scratch/dist/sources"
-  cp -R "$scratch/source/.github/workflows/source-provenance" "$scratch/dist/sources/provenance"
   docker build --label "org.opencontainers.image.revision=$(git rev-parse HEAD)" \
     --file "$scratch/source/Dockerfile" --tag "$image" "$scratch/dist"
 fi
 test "$(docker image inspect "$image" --format '{{ index .Config.Labels "org.opencontainers.image.revision" }}')" = "$(git rev-parse HEAD)"
 docker save --output "$scratch/image.tar" "$image"
+python3 scripts/assert-no-source-bundles.py "$scratch/image.tar"
 "$python" scripts/distribution_audit.py image "$scratch/image.tar" --output "$scratch/layers"
 scan "$scratch/layers"
 # Static metadata only: no server, database, credentials or external requests.
@@ -61,8 +59,5 @@ docker run --rm --network none --read-only --cap-drop ALL --security-opt no-new-
   --mount "type=bind,src=$scratch/source,dst=/owner-source,readonly" \
   --mount "type=bind,src=$scratch/source/src,dst=/audit-source,readonly" \
   --entrypoint /opt/runtime/bin/python "$image" /audit.py installed /audit-source --owner-source /owner-source
-docker run --rm --network none --read-only --cap-drop ALL --security-opt no-new-privileges \
-  --mount "type=bind,src=$PWD/scripts/prepare_sources.py,dst=/sources-audit.py,readonly" \
-  --entrypoint /opt/runtime/bin/python "$image" -I /sources-audit.py verify /usr/share/doc/oracles-service/sources
 bash scripts/check-library-replacement.sh "$image"
 printf 'Source and container checks passed for %s. Publication remains separately authorized.\n' "$(git rev-parse HEAD)"

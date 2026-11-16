@@ -53,3 +53,9 @@ proxies, does not follow redirects, and accepts only identity-encoded responses 
 to 1 MiB. The timeout bounds DNS and streaming together. Failures return an
 unreachable observation without a digest. Tenant/purpose authorization, subject
 validation and attestation expiry remain mandatory.
+
+## Runtime distribution
+
+Runtime builds do not download or bundle third-party source archives. Owner
+LICENSE/NOTICE and dependency legal texts remain in the image. Source-bundle
+records describe earlier builds only; no separate source container is introduced.

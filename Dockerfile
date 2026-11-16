@@ -6,9 +6,6 @@ RUN /opt/runtime/bin/python -c "from importlib.metadata import distribution; fro
 COPY prepare_notices.py /notice-tools/prepare_notices.py
 COPY third-party-notices /notice-tools/supplements
 RUN /opt/runtime/bin/python /notice-tools/prepare_notices.py /owner-notices/third-party /notice-tools/supplements
-COPY prepare_sources.py /notice-tools/prepare_sources.py
-COPY sources /owner-notices/sources
-RUN --network=none /opt/runtime/bin/python /notice-tools/prepare_sources.py verify /owner-notices/sources
 # API runtime does not serve notebook browser extensions.
 RUN rm -rf /opt/runtime/share/jupyter
 
